@@ -1,10 +1,10 @@
 # 은퇴소득 계산기 (Retirement Income Calculator)
 
-복리 계산기와 퇴직 후 인출 계산기를 합친 Android 앱입니다.
+복리저축 계산기와 퇴직 후 인출 계산기를 합친 Android 앱입니다.
 
 ## 화면 구성
 
-### 복리 계산기 (Compound Interest Calculator)
+### 복리저축 계산기 (Compound Interest Calculator)
 - 초기 투자금 / 월 납입금 설정
 - 연 수익률, 투자 기간, 복리 주기 (연/분기/월/일) 선택
 - 세금·수수료 반영
@@ -35,7 +35,7 @@ retirementcalculator/
 │   └── src/main/
 │       ├── AndroidManifest.xml
 │       ├── assets/
-│       │   ├── compound_calculator.html     # 복리 계산기 (다크 테마)
+│       │   ├── compound_calculator.html     # 복리저축 계산기 (다크 테마)
 │       │   └── withdrawal_calculator.html   # 인출 계산기 (라이트 테마)
 │       ├── java/com/retirementcalculator/
 │       │   ├── MainActivity.kt              # BottomNavigation 진입점

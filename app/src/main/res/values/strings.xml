@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">은퇴소득 계산기</string>
-    <string name="nav_compound">복리 계산기</string>
+    <string name="nav_compound">복리저축 계산기</string>
     <string name="nav_withdrawal">인출 계산기</string>
 </resources>
