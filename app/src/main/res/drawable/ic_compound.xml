@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- 복리 성장 아이콘: 위쪽으로 올라가는 그래프 선 -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#c8a96e"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M3,18 L8,13 L12,15 L18,7 L21,7" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#c8a96e"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M3,21 L21,21" />
+    <path
+        android:fillColor="#c8a96e"
+        android:pathData="M18,5 L21,5 L21,8 Z" />
+</vector>

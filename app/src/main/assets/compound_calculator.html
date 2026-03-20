@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>복리 계산기</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #161923;
+    --surface2: #1e2330;
+    --border: #2a3045;
+    --gold: #c8a96e;
+    --gold-light: #e8c98e;
+    --gold-dim: #7a6542;
+    --text: #e8e4dc;
+    --text-muted: #8a8a9a;
+    --green: #4caf7d;
+    --green-dim: #2a5e42;
+    --red: #e07060;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Serif KR', 'Apple SD Gothic Neo', sans-serif;
+    min-height: 100vh;
+    padding: 20px 14px 80px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+  }
+
+  h1 span { color: var(--gold); }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .divider {
+    width: 50px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    margin: 16px auto;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 16px;
+    margin-bottom: 16px;
+  }
+
+  .card-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  @media (max-width: 400px) {
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+
+  label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+
+  .input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .input-prefix {
+    position: absolute;
+    left: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--gold-dim);
+    pointer-events: none;
+  }
+
+  input[type="number"], select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 12px 12px 32px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    -webkit-appearance: none;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+  input[type="number"]:focus, select:focus { border-color: var(--gold-dim); }
+
+  select { padding-left: 12px; cursor: pointer; }
+
+  .range-field { display: flex; flex-direction: column; gap: 6px; }
+
+  .range-header { display: flex; justify-content: space-between; align-items: center; }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px;
+    background: var(--gold);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .range-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    color: var(--gold);
+    min-width: 52px;
+    text-align: right;
+  }
+
+  .btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+    color: #0d0f14;
+    border: none;
+    border-radius: 8px;
+    padding: 16px;
+    font-family: 'Noto Serif KR', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 1px;
+    margin-top: 6px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn:active { opacity: 0.85; }
+
+  .results { display: none; }
+  .results.visible { display: block; animation: fadeUp 0.4s ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 400px) {
+    .result-grid { grid-template-columns: 1fr; }
+  }
+
+  .result-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .result-item.highlight {
+    background: linear-gradient(135deg, #1a1e10, #1e2416);
+    border-color: var(--green-dim);
+  }
+
+  .result-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 6px;
+  }
+
+  .result-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .result-val.big { color: var(--green); font-size: 18px; font-weight: 700; }
+
+  .chart-wrap {
+    position: relative;
+    height: 220px;
+    margin-bottom: 8px;
+  }
+
+  canvas { width: 100% !important; }
+
+  .table-scroll {
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-family: 'DM Mono', monospace; font-size: 12px; }
+
+  thead { position: sticky; top: 0; background: var(--surface2); z-index: 2; }
+
+  th {
+    padding: 10px 10px;
+    text-align: right;
+    color: var(--gold-dim);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+
+  th:first-child { text-align: left; }
+
+  td {
+    padding: 9px 10px;
+    text-align: right;
+    color: var(--text-muted);
+    border-bottom: 1px solid rgba(42,48,69,0.5);
+  }
+
+  td:first-child { text-align: left; color: var(--text); }
+
+  tr:last-child td { border-bottom: none; }
+  tr.year-row td { color: var(--text); background: rgba(200,169,110,0.04); }
+  tr.highlight-row td { color: var(--green) !important; background: rgba(76,175,125,0.06); font-weight: 500; }
+
+  .badge {
+    display: inline-block;
+    background: var(--green-dim);
+    color: var(--green);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 9px;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+
+  .toggle-table {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 9px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    margin-top: 12px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(42,48,69,0.5);
+    font-size: 13px;
+  }
+
+  .info-row:last-child { border-bottom: none; }
+  .info-key { color: var(--text-muted); }
+  .info-val { font-family: 'DM Mono', monospace; color: var(--text); }
+  .info-val.accent { color: var(--gold); }
+
+  .spacer { height: 14px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">Financial Planning Tool</div>
+    <h1>복리 <span>계산기</span></h1>
+    <p class="subtitle">시간이 돈을 불리는 마법 — 복리의 힘을 시각화합니다</p>
+    <div class="divider"></div>
+  </header>
+
+  <div class="card">
+    <div class="card-title">📐 투자 조건 설정</div>
+    <div class="grid-2">
+      <div class="field">
+        <label>초기 투자금</label>
+        <div class="input-wrap">
+          <span class="input-prefix">₩</span>
+          <input type="number" id="principal" value="10000000" min="0" inputmode="numeric">
+        </div>
+      </div>
+      <div class="field">
+        <label>월 추가 납입금</label>
+        <div class="input-wrap">
+          <span class="input-prefix">₩</span>
+          <input type="number" id="monthly" value="500000" min="0" inputmode="numeric">
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="range-field">
+      <div class="range-header">
+        <label>연 수익률</label>
+        <span class="range-val" id="rateLabel">7.0%</span>
+      </div>
+      <input type="range" id="rate" min="0.5" max="30" step="0.5" value="7">
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="grid-2">
+      <div class="range-field">
+        <div class="range-header">
+          <label>투자 기간</label>
+          <span class="range-val" id="yearsLabel">10년</span>
+        </div>
+        <input type="range" id="years" min="1" max="40" step="1" value="10">
+      </div>
+      <div class="field">
+        <label>복리 주기</label>
+        <select id="freq">
+          <option value="1">연복리</option>
+          <option value="4">분기복리</option>
+          <option value="12" selected>월복리</option>
+          <option value="365">일복리</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="range-field">
+      <div class="range-header">
+        <label>세금/수수료 (연)</label>
+        <span class="range-val" id="taxLabel">15.4%</span>
+      </div>
+      <input type="range" id="tax" min="0" max="30" step="0.1" value="15.4">
+    </div>
+
+    <div class="spacer"></div>
+    <button class="btn" onclick="calculate()">✦ 계산하기</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="card">
+      <div class="card-title">📊 결과 요약</div>
+      <div class="result-grid">
+        <div class="result-item">
+          <div class="result-label">총 투자 원금</div>
+          <div class="result-val" id="rPrincipal">—</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">세전 수익</div>
+          <div class="result-val" id="rGain">—</div>
+        </div>
+        <div class="result-item highlight">
+          <div class="result-label">최종 자산 (세후)</div>
+          <div class="result-val big" id="rFinal">—</div>
+        </div>
+      </div>
+      <div id="extraInfo"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📈 자산 성장 차트</div>
+      <div class="chart-wrap">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📋 연도별 상세 내역</div>
+      <button class="toggle-table" onclick="toggleTable()">▼ 상세 펼치기</button>
+      <div id="tableWrap" style="display:none; margin-top:12px;">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>연도</th>
+                <th>누적 원금</th>
+                <th>수익</th>
+                <th>세후 자산</th>
+                <th>수익률</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+  document.getElementById('rate').oninput = function() {
+    document.getElementById('rateLabel').textContent = parseFloat(this.value).toFixed(1) + '%';
+  };
+  document.getElementById('years').oninput = function() {
+    document.getElementById('yearsLabel').textContent = this.value + '년';
+  };
+  document.getElementById('tax').oninput = function() {
+    document.getElementById('taxLabel').textContent = parseFloat(this.value).toFixed(1) + '%';
+  };
+
+  function fmt(n) {
+    if (n >= 1e8) return (n / 1e8).toFixed(2) + '억';
+    if (n >= 1e4) return (n / 1e4).toFixed(0) + '만';
+    return n.toFixed(0);
+  }
+
+  function fmtFull(n) {
+    if (n >= 1e8) {
+      const uk = Math.floor(n / 1e8);
+      const man = Math.round((n % 1e8) / 1e4);
+      return uk + '억 ' + (man > 0 ? man + '만' : '');
+    }
+    return Math.round(n / 1e4) + '만';
+  }
+
+  let chartInstance = null;
+
+  function calculate() {
+    const P = parseFloat(document.getElementById('principal').value) || 0;
+    const monthly = parseFloat(document.getElementById('monthly').value) || 0;
+    const r = parseFloat(document.getElementById('rate').value) / 100;
+    const years = parseInt(document.getElementById('years').value);
+    const n = parseInt(document.getElementById('freq').value);
+    const taxRate = parseFloat(document.getElementById('tax').value) / 100;
+
+    const labels = [];
+    const principalData = [];
+    const grossData = [];
+    const netData = [];
+    const tableRows = [];
+
+    let gross = P;
+    const rPerPeriod = r / n;
+    const periodsPerYear = n;
+
+    for (let y = 1; y <= years; y++) {
+      for (let p = 0; p < periodsPerYear; p++) {
+        gross = gross * (1 + rPerPeriod) + (monthly * 12 / periodsPerYear);
+      }
+      const totalPrincipal = P + monthly * 12 * y;
+      const gain = gross - totalPrincipal;
+      const taxAmount = gain > 0 ? gain * taxRate : 0;
+      const net = gross - taxAmount;
+
+      labels.push(y + '년');
+      principalData.push(totalPrincipal);
+      grossData.push(Math.round(gross));
+      netData.push(Math.round(net));
+      tableRows.push({ y, totalPrincipal, gross, gain, net, taxAmount });
+    }
+
+    const finalNet = netData[netData.length - 1];
+    const finalPrincipal = principalData[principalData.length - 1];
+    const finalGain = grossData[grossData.length - 1] - finalPrincipal;
+    const currentYear = new Date().getFullYear();
+
+    document.getElementById('rPrincipal').textContent = fmtFull(finalPrincipal) + '원';
+    document.getElementById('rGain').textContent = fmtFull(finalGain) + '원';
+    document.getElementById('rFinal').textContent = fmtFull(finalNet) + '원';
+
+    const mul = finalNet / finalPrincipal;
+    document.getElementById('extraInfo').innerHTML = `
+      <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border);">
+        <div class="info-row"><span class="info-key">자산 증가 배수</span><span class="info-val accent">${mul.toFixed(2)}배</span></div>
+        <div class="info-row"><span class="info-key">실질 CAGR (세후)</span><span class="info-val">${((Math.pow(finalNet/finalPrincipal,1/years)-1)*100).toFixed(2)}%</span></div>
+        <div class="info-row"><span class="info-key">총 세금/수수료 추정</span><span class="info-val">${fmtFull(grossData[grossData.length-1] - finalNet)}원</span></div>
+        <div class="info-row"><span class="info-key">월 납입 총액</span><span class="info-val">${fmtFull(monthly * 12 * years)}원</span></div>
+      </div>
+    `;
+
+    if (chartInstance) chartInstance.destroy();
+    const ctx = document.getElementById('myChart').getContext('2d');
+    chartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: '세후 자산',
+            data: netData,
+            borderColor: '#4caf7d',
+            backgroundColor: 'rgba(76,175,125,0.08)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: years > 20 ? 0 : 3,
+            borderWidth: 2,
+          },
+          {
+            label: '투자 원금',
+            data: principalData,
+            borderColor: '#c8a96e',
+            backgroundColor: 'rgba(200,169,110,0.05)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 0,
+            borderWidth: 1.5,
+            borderDash: [4, 3],
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: {
+            labels: { color: '#8a8a9a', font: { family: 'DM Mono', size: 10 }, boxWidth: 10 }
+          },
+          tooltip: {
+            backgroundColor: '#161923',
+            borderColor: '#2a3045',
+            borderWidth: 1,
+            titleColor: '#c8a96e',
+            bodyColor: '#e8e4dc',
+            callbacks: {
+              label: ctx => ' ' + ctx.dataset.label + ': ' + fmtFull(ctx.raw) + '원'
+            }
+          }
+        },
+        scales: {
+          x: { ticks: { color: '#8a8a9a', font: { family: 'DM Mono', size: 10 }, maxTicksLimit: 10 }, grid: { color: '#1e2330' } },
+          y: {
+            ticks: {
+              color: '#8a8a9a',
+              font: { family: 'DM Mono', size: 10 },
+              callback: v => fmtFull(v)
+            },
+            grid: { color: '#1e2330' }
+          }
+        }
+      }
+    });
+
+    const tbody = document.getElementById('tableBody');
+    tbody.innerHTML = '';
+    tableRows.forEach((row, idx) => {
+      const tr = document.createElement('tr');
+      const calYear = currentYear + row.y;
+      const isRetire = row.y === years;
+      tr.className = isRetire ? 'highlight-row' : 'year-row';
+      tr.innerHTML = `
+        <td>${calYear}년 (${row.y}년차)${isRetire ? '<span class="badge">목표</span>' : ''}</td>
+        <td>${fmtFull(row.totalPrincipal)}원</td>
+        <td>${fmtFull(row.gain > 0 ? row.gain : 0)}원</td>
+        <td>${fmtFull(row.net)}원</td>
+        <td>${((row.net / row.totalPrincipal - 1)*100).toFixed(1)}%</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    document.getElementById('results').classList.add('visible');
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function toggleTable() {
+    const wrap = document.getElementById('tableWrap');
+    const btn = document.querySelector('.toggle-table');
+    if (wrap.style.display === 'none') {
+      wrap.style.display = 'block';
+      btn.textContent = '▲ 접기';
+    } else {
+      wrap.style.display = 'none';
+      btn.textContent = '▼ 상세 펼치기';
+    }
+  }
+
+  calculate();
+</script>
+</body>
+</html>

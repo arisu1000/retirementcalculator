@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>퇴직 후 인출 계산기</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1612;
+  --paper: #f5f0e8;
+  --paper2: #ede8dd;
+  --paper3: #e4ddd0;
+  --warm: #8b6914;
+  --warm-light: #c49a2a;
+  --warm-pale: #f0e4c0;
+  --rust: #a0412a;
+  --rust-light: #d4634a;
+  --green: #2a6640;
+  --green-light: #3d9458;
+  --green-pale: #d4ead9;
+  --text: #2a2420;
+  --text-muted: #7a6e62;
+  --border: #c8bfae;
+  --shadow: rgba(26,22,18,0.12);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--text);
+  font-family: 'Nanum Myeongjo', 'Apple SD Gothic Neo', serif;
+  min-height: 100vh;
+  padding: 24px 14px 80px;
+  -webkit-text-size-adjust: 100%;
+}
+.container { max-width: 900px; margin: 0 auto; }
+header {
+  text-align: center;
+  margin-bottom: 28px;
+  padding-bottom: 22px;
+  border-bottom: 2px solid var(--border);
+  position: relative;
+}
+header::after {
+  content: '';
+  position: absolute;
+  bottom: -5px; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 1px;
+  background: var(--border);
+}
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--warm);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+h1 { font-size: 26px; font-weight: 800; color: var(--ink); line-height: 1.15; letter-spacing: -0.5px; }
+h1 em { font-style: italic; color: var(--warm); }
+.subtitle { font-size: 13px; color: var(--text-muted); margin-top: 8px; line-height: 1.6; }
+.section {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 20px 16px 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px var(--shadow);
+  position: relative;
+}
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--warm-light);
+  border-radius: 4px 0 0 4px;
+}
+.section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--warm);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--paper3);
+}
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 400px) { .grid-2 { grid-template-columns: 1fr; } }
+.field { display: flex; flex-direction: column; gap: 6px; }
+label { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+.input-wrap { position: relative; display: flex; align-items: center; }
+.pfx { position: absolute; left: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); pointer-events: none; }
+input[type="number"], select {
+  width: 100%;
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px 12px 12px 28px;
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  -webkit-appearance: none;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+input[type="number"]:focus, select:focus { border-color: var(--warm-light); background: var(--warm-pale); }
+select { padding-left: 12px; cursor: pointer; }
+.range-block { display: flex; flex-direction: column; gap: 8px; }
+.range-header { display: flex; justify-content: space-between; align-items: baseline; }
+.range-label { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+.range-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 500; color: var(--warm); }
+input[type="range"] {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 4px;
+  background: var(--paper3); border-radius: 2px;
+  outline: none; cursor: pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px; height: 22px;
+  background: white; border: 2px solid var(--warm-light); border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 1px 4px var(--shadow);
+}
+.tabs { display: flex; gap: 0; margin-bottom: 18px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.tab {
+  flex: 1; padding: 10px 6px;
+  background: var(--paper); border: none; cursor: pointer;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  color: var(--text-muted); transition: background 0.2s, color 0.2s;
+  border-right: 1px solid var(--border); line-height: 1.4;
+  -webkit-tap-highlight-color: transparent;
+}
+.tab:last-child { border-right: none; }
+.tab.active { background: var(--warm-light); color: white; font-weight: 500; }
+.tab:active:not(.active) { background: var(--warm-pale); }
+.btn {
+  width: 100%; background: var(--ink); color: var(--paper);
+  border: none; border-radius: 4px; padding: 16px;
+  font-family: 'Nanum Myeongjo', serif; font-size: 16px; font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 1px; margin-top: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active { opacity: 0.85; }
+.results { display: none; }
+.results.visible { display: block; animation: reveal 0.4s ease; }
+@keyframes reveal { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.kpi-row { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 16px; }
+.kpi {
+  background: white; border: 1px solid var(--border); border-radius: 4px;
+  padding: 14px 12px; text-align: center; box-shadow: 0 1px 6px var(--shadow);
+}
+.kpi.danger { border-color: var(--rust-light); background: #fff8f6; }
+.kpi.success { border-color: #90c89a; background: #f5fbf6; }
+.kpi.warn { border-color: var(--warm-light); background: #fffbf0; }
+.kpi-label { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px; }
+.kpi-val { font-size: 20px; font-weight:800; color:var(--ink); line-height:1; font-family:'JetBrains Mono',monospace; }
+.kpi-val.red { color: var(--rust); }
+.kpi-val.green { color: var(--green); }
+.kpi-val.gold { color: var(--warm); }
+.kpi-sub { font-size:10px; color:var(--text-muted); margin-top:4px; font-family:'JetBrains Mono',monospace; }
+.swr-banner {
+  background: #fffbf0; border: 1px solid var(--warm-light); border-radius: 4px;
+  padding: 14px 16px; margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.swr-rate { font-size: 28px; font-weight: 800; color: var(--warm); }
+.swr-desc { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.banner { padding:13px 16px; border-radius:4px; margin-bottom:16px; display:flex; align-items:center; gap:10px; font-size:14px; font-weight:700; border:1px solid; }
+.banner.ok { background:var(--green-pale); border-color:#90c89a; color:var(--green); }
+.banner.ng { background:#fce8e4; border-color:#e0a090; color:var(--rust); }
+.chart-wrap { position:relative; height:240px; }
+.table-toggle {
+  background:none; border:1px solid var(--border); color:var(--text-muted);
+  padding:9px 16px; border-radius:4px; cursor:pointer;
+  font-size:11px; font-family:'JetBrains Mono',monospace;
+  margin-top:14px;
+  -webkit-tap-highlight-color: transparent;
+}
+.table-scroll {
+  max-height:320px; overflow-y:auto; border:1px solid var(--border); border-radius:4px; margin-top:12px;
+  -webkit-overflow-scrolling: touch;
+}
+table { width:100%; border-collapse:collapse; font-family:'JetBrains Mono',monospace; font-size:11px; }
+thead { position:sticky; top:0; background:var(--paper2); z-index:2; }
+th { padding:9px 10px; text-align:right; color:var(--text-muted); font-size:9px; letter-spacing:1px; text-transform:uppercase; border-bottom:1px solid var(--border); font-weight:400; }
+th:first-child { text-align:left; }
+td { padding:8px 10px; text-align:right; color:var(--text-muted); border-bottom:1px solid rgba(200,191,174,0.4); }
+td:first-child { text-align:left; color:var(--text); }
+tr.depleted td { color:var(--rust-light) !important; background:#fff5f3; }
+tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight:500; }
+.tag { display:inline-block; background:var(--rust-light); color:white; padding:1px 5px; border-radius:2px; font-size:8px; margin-left:3px; vertical-align:middle; }
+.tag.ok { background:var(--green-light); }
+.scenario-grid { display:grid; grid-template-columns:1fr; gap:10px; }
+.scenario-card { background:var(--paper); border:1px solid var(--border); border-radius:4px; padding:14px 12px; }
+.scenario-card h4 { font-size:11px; margin-bottom:8px; color:var(--text); font-family:'JetBrains Mono',monospace; }
+.sc-row { display:flex; justify-content:space-between; font-size:11px; font-family:'JetBrains Mono',monospace; padding:4px 0; border-bottom:1px solid rgba(200,191,174,0.3); color:var(--text-muted); }
+.sc-row:last-child { border-bottom:none; }
+.sc-val { color:var(--text); }
+.sc-val.red { color:var(--rust); }
+.sc-val.green { color:var(--green); }
+.spacer { height: 14px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="eyebrow">Retirement Planning Tool</div>
+  <h1>퇴직 후 <em>인출</em> 계산기</h1>
+  <p class="subtitle">은퇴 자산이 언제까지 버티는가 — 안전 인출률과 자산 소진 시점을 분석합니다</p>
+</header>
+
+<div class="section">
+  <div class="section-title">계산 방식 선택</div>
+  <div class="tabs">
+    <button class="tab active" onclick="setMode('fixed')" id="tab-fixed">정액 인출<br><small style="opacity:0.7">매달 고정 금액</small></button>
+    <button class="tab" onclick="setMode('rate')" id="tab-rate">정률 인출<br><small style="opacity:0.7">잔액의 N% 매년</small></button>
+    <button class="tab" onclick="setMode('swr')" id="tab-swr">SWR 분석<br><small style="opacity:0.7">안전 인출률 찾기</small></button>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:16px;">
+    <div class="field">
+      <label>은퇴 시작 자산</label>
+      <div class="input-wrap"><span class="pfx">₩</span><input type="number" id="nest" value="500000000" inputmode="numeric"></div>
+    </div>
+    <div class="field">
+      <label>은퇴 시작 연도</label>
+      <div class="input-wrap"><span class="pfx" style="font-size:10px">년</span><input type="number" id="startYear" value="2034" style="padding-left:24px;" inputmode="numeric"></div>
+    </div>
+  </div>
+
+  <div id="mode-fixed">
+    <div class="grid-2" style="margin-bottom:16px;">
+      <div class="field">
+        <label>월 인출액</label>
+        <div class="input-wrap"><span class="pfx">₩</span><input type="number" id="monthly" value="3000000" inputmode="numeric"></div>
+      </div>
+      <div class="field">
+        <label>물가상승률 반영</label>
+        <select id="inflation">
+          <option value="0">반영 안함</option>
+          <option value="2" selected>2% (보통)</option>
+          <option value="3">3% (높음)</option>
+          <option value="3.5">3.5%</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div id="mode-rate" style="display:none;">
+    <div class="range-block" style="margin-bottom:16px;">
+      <div class="range-header">
+        <span class="range-label">연간 인출률</span>
+        <span class="range-val" id="rateLabel">4.0%</span>
+      </div>
+      <input type="range" id="wRate" min="1" max="15" step="0.1" value="4"
+        oninput="document.getElementById('rateLabel').textContent=parseFloat(this.value).toFixed(1)+'%'">
+    </div>
+  </div>
+
+  <div id="mode-swr" style="display:none;">
+    <div class="field" style="margin-bottom:16px;">
+      <label>자산 유지 목표 기간</label>
+      <div class="input-wrap"><span class="pfx" style="font-size:10px">년</span><input type="number" id="swrYears" value="30" style="padding-left:24px;" inputmode="numeric"></div>
+    </div>
+  </div>
+
+  <div class="range-block" style="margin-bottom:16px;">
+    <div class="range-header">
+      <span class="range-label">포트폴리오 연평균 수익률</span>
+      <span class="range-val" id="returnLabel">5.0%</span>
+    </div>
+    <input type="range" id="retRate" min="0" max="15" step="0.5" value="5"
+      oninput="document.getElementById('returnLabel').textContent=parseFloat(this.value).toFixed(1)+'%'">
+  </div>
+
+  <div class="range-block" style="margin-bottom:16px;">
+    <div class="range-header">
+      <span class="range-label">예측 기간 (기대 수명 기준)</span>
+      <span class="range-val" id="lifeLabel">30년</span>
+    </div>
+    <input type="range" id="lifespan" min="10" max="50" step="1" value="30"
+      oninput="document.getElementById('lifeLabel').textContent=this.value+'년'">
+  </div>
+
+  <button class="btn" onclick="calculate()">✦ 계산하기</button>
+</div>
+
+<div class="results" id="results">
+  <div class="kpi-row" id="kpiRow"></div>
+  <div id="banner"></div>
+
+  <div class="section">
+    <div class="section-title">자산 잔액 추이</div>
+    <div class="chart-wrap"><canvas id="chart"></canvas></div>
+  </div>
+
+  <div class="section" id="scenarioSection" style="display:none;">
+    <div class="section-title">시나리오 비교</div>
+    <div class="scenario-grid" id="scenarioGrid"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">연도별 인출 내역</div>
+    <button class="table-toggle" onclick="toggleTable()">▼ 상세 내역 보기</button>
+    <div id="tableWrap" style="display:none;">
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>연도</th><th>연간 인출액</th><th>운용수익</th><th>연말 잔액</th><th>소진율</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+let mode = 'fixed';
+let chartInst = null;
+
+function setMode(m) {
+  mode = m;
+  ['fixed','rate','swr'].forEach(x => {
+    document.getElementById('mode-'+x).style.display = x===m ? 'block' : 'none';
+    document.getElementById('tab-'+x).classList.toggle('active', x===m);
+  });
+}
+
+function fmt(n) {
+  const abs = Math.abs(n);
+  if (abs >= 1e8) return (n/1e8).toFixed(2)+'억';
+  if (abs >= 1e4) return Math.round(n/1e4)+'만';
+  return Math.round(n).toLocaleString();
+}
+
+function fmtFull(n) {
+  if (Math.abs(n) >= 1e8) {
+    const uk = Math.floor(Math.abs(n)/1e8);
+    const man = Math.round((Math.abs(n)%1e8)/1e4);
+    return (n<0?'-':'') + uk+'억'+(man>0?' '+man+'만':'');
+  }
+  return Math.round(n/1e4)+'만원';
+}
+
+function simulate(nest, annualWithdrawal, returnRate, years, inflationRate) {
+  const rows = [];
+  let balance = nest;
+  let withdrawal = annualWithdrawal;
+  let depletedYear = null;
+
+  for (let y = 1; y <= years; y++) {
+    if (depletedYear) {
+      rows.push({ y, withdrawal: 0, gain: 0, balance: 0, depleted: true });
+      continue;
+    }
+    const gain = balance * (returnRate / 100);
+    const w = Math.min(withdrawal, balance + gain);
+    balance = balance + gain - w;
+    if (balance <= 0) { balance = 0; depletedYear = y; }
+    rows.push({ y, withdrawal: w, gain, balance, depleted: balance <= 0 });
+    withdrawal *= (1 + (inflationRate||0)/100);
+  }
+  return { rows, depletedYear };
+}
+
+function calculate() {
+  const nest = parseFloat(document.getElementById('nest').value) || 0;
+  const startYear = parseInt(document.getElementById('startYear').value) || 2034;
+  const retRate = parseFloat(document.getElementById('retRate').value);
+  const lifespan = parseInt(document.getElementById('lifespan').value);
+
+  if (mode === 'swr') { runSWR(nest, startYear, retRate, lifespan); return; }
+
+  let annualWithdrawal, inflationRate = 0;
+  if (mode === 'fixed') {
+    annualWithdrawal = (parseFloat(document.getElementById('monthly').value)||0) * 12;
+    inflationRate = parseFloat(document.getElementById('inflation').value)||0;
+  } else {
+    annualWithdrawal = nest * (parseFloat(document.getElementById('wRate').value)/100);
+  }
+
+  const { rows, depletedYear } = simulate(nest, annualWithdrawal, retRate, lifespan, inflationRate);
+  renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, lifespan, retRate, inflationRate);
+}
+
+function runSWR(nest, startYear, retRate, lifespan) {
+  const targetYears = parseInt(document.getElementById('swrYears').value)||30;
+  let lo = 0, hi = 20, safeSWR = 0;
+  for (let i = 0; i < 80; i++) {
+    const mid = (lo + hi) / 2;
+    const { depletedYear } = simulate(nest, nest*mid/100, retRate, targetYears, 0);
+    if (!depletedYear) { lo = mid; safeSWR = mid; } else hi = mid;
+  }
+  const annualW = nest * safeSWR / 100;
+  const { rows, depletedYear } = simulate(nest, annualW, retRate, lifespan, 0);
+  const scenarios = [
+    { label: '보수적 (SWR-1%)', rate: Math.max(safeSWR-1,0.5) },
+    { label: '안전 인출률', rate: safeSWR },
+    { label: '적극적 (SWR+1%)', rate: safeSWR+1 },
+  ].map(s => {
+    const r = simulate(nest, nest*s.rate/100, retRate, lifespan, 0);
+    return { ...s, monthly: nest*s.rate/100/12, depletedYear: r.depletedYear, lastBalance: r.rows[r.rows.length-1].balance };
+  });
+  renderResults(rows, depletedYear, nest, annualW, startYear, lifespan, retRate, 0, safeSWR, annualW/12, scenarios);
+}
+
+function renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, lifespan, retRate, inflationRate, safeSWR, safeMonthly, scenarioData) {
+  const lastRow = rows[rows.length-1];
+  const totalWithdrawn = rows.reduce((s,r) => s+r.withdrawal, 0);
+  const finalBalance = lastRow.balance;
+  const endYear = startYear + lifespan - 1;
+
+  let swrKpi = '';
+  if (safeSWR) {
+    swrKpi = `<div class="swr-banner" style="margin-bottom:16px;">
+      <div class="swr-rate">${safeSWR.toFixed(2)}%</div>
+      <div class="swr-desc">안전 인출률 — 월 ${fmt(safeMonthly)}원 인출 시 ${parseInt(document.getElementById('swrYears').value)}년간 자산 유지</div>
+    </div>`;
+  }
+
+  document.getElementById('kpiRow').innerHTML = `
+    <div class="kpi ${depletedYear ? 'danger' : 'success'}">
+      <div class="kpi-label">자산 지속</div>
+      <div class="kpi-val ${depletedYear ? 'red' : 'green'}">${depletedYear ? depletedYear+'년차' : lifespan+'년+'}</div>
+      <div class="kpi-sub">${depletedYear ? (startYear+depletedYear-1)+'년 소진' : '기간 내 유지'}</div>
+    </div>
+    <div class="kpi warn">
+      <div class="kpi-label">월 인출액</div>
+      <div class="kpi-val gold">${fmt(annualWithdrawal/12)}</div>
+      <div class="kpi-sub">연 ${fmt(annualWithdrawal)}원</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">총 인출 합계</div>
+      <div class="kpi-val">${fmt(totalWithdrawn)}</div>
+      <div class="kpi-sub">원금의 ${(totalWithdrawn/nest*100).toFixed(0)}%</div>
+    </div>
+    <div class="kpi ${finalBalance > 0 ? 'success' : 'danger'}">
+      <div class="kpi-label">${endYear}년 잔액</div>
+      <div class="kpi-val ${finalBalance > 0 ? 'green' : 'red'}">${finalBalance > 0 ? fmt(finalBalance) : '0'}</div>
+      <div class="kpi-sub">${finalBalance > 0 ? '잔액 남음' : '소진됨'}</div>
+    </div>
+  `;
+
+  document.getElementById('banner').innerHTML = swrKpi + (depletedYear
+    ? `<div class="banner ng"><span style="font-size:18px;">⚠️</span><span>은퇴 후 <strong>${depletedYear}년차</strong> (${startYear+depletedYear-1}년)에 자산 소진. 목표보다 <strong>${lifespan-depletedYear}년</strong> 부족</span></div>`
+    : `<div class="banner ok"><span style="font-size:18px;">✓</span><span>${lifespan}년 자산 유지. 최종 잔액 <strong>${fmtFull(finalBalance)}</strong></span></div>`);
+
+  if (chartInst) chartInst.destroy();
+  const ctx = document.getElementById('chart').getContext('2d');
+  chartInst = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: rows.map(r => (startYear+r.y-1)+'년'),
+      datasets: [
+        { type:'line', label:'자산 잔액', data: rows.map(r => Math.max(r.balance,0)),
+          borderColor:'#2a6640', backgroundColor:'rgba(42,102,64,0.08)', fill:true, tension:0.4,
+          pointRadius: rows.length>25?0:3, borderWidth:2, yAxisID:'y' },
+        { type:'bar', label:'연간 인출액', data: rows.map(r=>r.withdrawal),
+          backgroundColor:'rgba(139,105,20,0.2)', borderColor:'rgba(139,105,20,0.4)', borderWidth:1, yAxisID:'y' }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      interaction:{ mode:'index', intersect:false },
+      plugins: {
+        legend:{ labels:{ color:'#7a6e62', font:{ family:'JetBrains Mono', size:10 }, boxWidth:10 } },
+        tooltip:{ backgroundColor:'white', borderColor:'#c8bfae', borderWidth:1, titleColor:'#2a2420', bodyColor:'#7a6e62',
+          callbacks:{ label: ctx=>' '+ctx.dataset.label+': '+fmtFull(ctx.raw) } }
+      },
+      scales:{
+        x:{ ticks:{ color:'#7a6e62', font:{ family:'JetBrains Mono', size:10 }, maxTicksLimit:10 }, grid:{ color:'rgba(200,191,174,0.3)' } },
+        y:{ ticks:{ color:'#7a6e62', font:{ family:'JetBrains Mono', size:10 }, callback: v=>fmt(v) }, grid:{ color:'rgba(200,191,174,0.3)' } }
+      }
+    }
+  });
+
+  if (scenarioData) {
+    document.getElementById('scenarioSection').style.display = 'block';
+    document.getElementById('scenarioGrid').innerHTML = scenarioData.map(s => `
+      <div class="scenario-card">
+        <h4>${s.label}</h4>
+        <div class="sc-row"><span>인출률</span><span class="sc-val">${s.rate.toFixed(2)}%</span></div>
+        <div class="sc-row"><span>월 인출액</span><span class="sc-val">${fmt(s.monthly)}원</span></div>
+        <div class="sc-row"><span>자산 지속</span><span class="sc-val ${s.depletedYear?'red':'green'}">${s.depletedYear ? s.depletedYear+'년차 소진' : lifespan+'년 유지'}</span></div>
+        <div class="sc-row"><span>최종 잔액</span><span class="sc-val ${s.lastBalance>0?'green':'red'}">${s.lastBalance>0?fmtFull(s.lastBalance):'0'}</span></div>
+      </div>`).join('');
+  } else {
+    document.getElementById('scenarioSection').style.display = 'none';
+  }
+
+  document.getElementById('tbody').innerHTML = rows.map(r => {
+    const year = startYear + r.y - 1;
+    const pct = r.balance > 0 ? ((nest-r.balance)/nest*100).toFixed(0)+'%' : '100%';
+    const isLast = r.y === lifespan;
+    return `<tr class="${r.depleted?'depleted':isLast?'last-year':''}">
+      <td>${year}년 (${r.y}년차)${r.depleted?'<span class="tag">소진</span>':isLast?'<span class="tag ok">종료</span>':''}</td>
+      <td>${fmt(r.withdrawal)}원</td>
+      <td>+${fmt(r.gain)}원</td>
+      <td>${r.balance>0 ? fmtFull(r.balance) : '<span style="color:var(--rust)">0</span>'}</td>
+      <td>${pct}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('results').classList.add('visible');
+  document.getElementById('results').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function toggleTable() {
+  const w = document.getElementById('tableWrap');
+  const b = document.querySelector('.table-toggle');
+  const open = w.style.display === 'none';
+  w.style.display = open ? 'block' : 'none';
+  b.textContent = open ? '▲ 상세 내역 접기' : '▼ 상세 내역 보기';
+}
+
+calculate();
+</script>
+</body>
+</html>

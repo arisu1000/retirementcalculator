@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_compound"
+        android:icon="@drawable/ic_compound"
+        android:title="@string/nav_compound" />
+
+    <item
+        android:id="@+id/nav_withdrawal"
+        android:icon="@drawable/ic_withdrawal"
+        android:title="@string/nav_withdrawal" />
+
+</menu>

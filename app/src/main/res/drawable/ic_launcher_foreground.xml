@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- 배경 원 -->
+    <path
+        android:fillColor="#c8a96e"
+        android:pathData="M54,54m-44,0a44,44 0 1,0 88,0a44,44 0 1,0 -88,0" />
+    <!-- 상승 그래프 선 -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#0d0f14"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M24,72 L36,58 L48,64 L68,42 L84,42" />
+    <!-- 화살표 -->
+    <path
+        android:fillColor="#0d0f14"
+        android:pathData="M84,36 L84,50 L70,43 Z" />
+    <!-- 기준선 -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#0d0f14"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M24,78 L84,78" />
+</vector>
