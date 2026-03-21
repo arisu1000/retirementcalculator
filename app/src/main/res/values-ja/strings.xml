@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">退職計算機</string>
+    <string name="nav_compound">複利計算機</string>
+    <string name="nav_withdrawal">引出計算機</string>
+</resources>

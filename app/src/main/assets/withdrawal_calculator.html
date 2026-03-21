@@ -7,85 +7,41 @@
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink: #1a1612;
-  --paper: #f5f0e8;
-  --paper2: #ede8dd;
-  --paper3: #e4ddd0;
-  --warm: #8b6914;
-  --warm-light: #c49a2a;
-  --warm-pale: #f0e4c0;
-  --rust: #a0412a;
-  --rust-light: #d4634a;
-  --green: #2a6640;
-  --green-light: #3d9458;
-  --green-pale: #d4ead9;
-  --text: #2a2420;
-  --text-muted: #7a6e62;
-  --border: #c8bfae;
-  --shadow: rgba(26,22,18,0.12);
+  --ink: #1a1612; --paper: #f5f0e8; --paper2: #ede8dd; --paper3: #e4ddd0;
+  --warm: #8b6914; --warm-light: #c49a2a; --warm-pale: #f0e4c0;
+  --rust: #a0412a; --rust-light: #d4634a;
+  --green: #2a6640; --green-light: #3d9458; --green-pale: #d4ead9;
+  --text: #2a2420; --text-muted: #7a6e62; --border: #c8bfae; --shadow: rgba(26,22,18,0.12);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  background: var(--paper);
-  color: var(--text);
+  background: var(--paper); color: var(--text);
   font-family: 'Nanum Myeongjo', 'Apple SD Gothic Neo', serif;
-  min-height: 100vh;
-  padding: 24px 14px 80px;
-  -webkit-text-size-adjust: 100%;
+  min-height: 100vh; padding: 24px 14px 80px; -webkit-text-size-adjust: 100%;
 }
 .container { max-width: 900px; margin: 0 auto; }
 header {
-  text-align: center;
-  margin-bottom: 28px;
-  padding-bottom: 22px;
-  border-bottom: 2px solid var(--border);
-  position: relative;
+  text-align: center; margin-bottom: 28px; padding-bottom: 22px;
+  border-bottom: 2px solid var(--border); position: relative;
 }
 header::after {
-  content: '';
-  position: absolute;
-  bottom: -5px; left: 50%; transform: translateX(-50%);
-  width: 120px; height: 1px;
-  background: var(--border);
+  content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 1px; background: var(--border);
 }
-.eyebrow {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 4px;
-  color: var(--warm);
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
+.eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 4px; color: var(--warm); text-transform: uppercase; margin-bottom: 10px; }
 h1 { font-size: 26px; font-weight: 800; color: var(--ink); line-height: 1.15; letter-spacing: -0.5px; }
 h1 em { font-style: italic; color: var(--warm); }
 .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 8px; line-height: 1.6; }
 .section {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 20px 16px 18px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 10px var(--shadow);
-  position: relative;
+  background: white; border: 1px solid var(--border); border-radius: 4px;
+  padding: 20px 16px 18px; margin-bottom: 16px;
+  box-shadow: 0 2px 10px var(--shadow); position: relative;
 }
 .section::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px; height: 100%;
-  background: var(--warm-light);
-  border-radius: 4px 0 0 4px;
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%; background: var(--warm-light); border-radius: 4px 0 0 4px;
 }
-.section-title {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 3px;
-  color: var(--warm);
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--paper3);
-}
+.section-title { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--warm); text-transform: uppercase; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--paper3); }
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 @media (max-width: 400px) { .grid-2 { grid-template-columns: 1fr; } }
 .field { display: flex; flex-direction: column; gap: 6px; }
@@ -93,19 +49,10 @@ label { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono'
 .input-wrap { position: relative; display: flex; align-items: center; }
 .pfx { position: absolute; left: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); pointer-events: none; }
 input[type="number"], select {
-  width: 100%;
-  background: var(--paper);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 12px 12px 12px 28px;
-  color: var(--text);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 15px;
-  outline: none;
-  transition: border-color 0.2s;
-  -moz-appearance: textfield;
-  appearance: textfield;
-  -webkit-appearance: none;
+  width: 100%; background: var(--paper); border: 1px solid var(--border); border-radius: 4px;
+  padding: 12px 12px 12px 28px; color: var(--text);
+  font-family: 'JetBrains Mono', monospace; font-size: 15px; outline: none;
+  transition: border-color 0.2s; -moz-appearance: textfield; appearance: textfield; -webkit-appearance: none;
 }
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
@@ -117,24 +64,18 @@ select { padding-left: 12px; cursor: pointer; }
 .range-val { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 500; color: var(--warm); }
 input[type="range"] {
   -webkit-appearance: none; appearance: none;
-  width: 100%; height: 4px;
-  background: var(--paper3); border-radius: 2px;
-  outline: none; cursor: pointer;
+  width: 100%; height: 4px; background: var(--paper3); border-radius: 2px; outline: none; cursor: pointer;
 }
 input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 22px; height: 22px;
+  -webkit-appearance: none; width: 22px; height: 22px;
   background: white; border: 2px solid var(--warm-light); border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 1px 4px var(--shadow);
+  cursor: pointer; box-shadow: 0 1px 4px var(--shadow);
 }
-.tabs { display: flex; gap: 0; margin-bottom: 18px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.tabs { display: flex; margin-bottom: 18px; border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
 .tab {
-  flex: 1; padding: 10px 6px;
-  background: var(--paper); border: none; cursor: pointer;
-  font-family: 'JetBrains Mono', monospace; font-size: 10px;
-  color: var(--text-muted); transition: background 0.2s, color 0.2s;
-  border-right: 1px solid var(--border); line-height: 1.4;
+  flex: 1; padding: 10px 6px; background: var(--paper); border: none; cursor: pointer;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);
+  transition: background 0.2s, color 0.2s; border-right: 1px solid var(--border); line-height: 1.4;
   -webkit-tap-highlight-color: transparent;
 }
 .tab:last-child { border-right: none; }
@@ -144,35 +85,24 @@ input[type="range"]::-webkit-slider-thumb {
   width: 100%; background: var(--ink); color: var(--paper);
   border: none; border-radius: 4px; padding: 16px;
   font-family: 'Nanum Myeongjo', serif; font-size: 16px; font-weight: 700;
-  cursor: pointer;
-  letter-spacing: 1px; margin-top: 8px;
-  -webkit-tap-highlight-color: transparent;
+  cursor: pointer; letter-spacing: 1px; margin-top: 8px; -webkit-tap-highlight-color: transparent;
 }
 .btn:active { opacity: 0.85; }
 .results { display: none; }
 .results.visible { display: block; animation: reveal 0.4s ease; }
 @keyframes reveal { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 .kpi-row { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 16px; }
-.kpi {
-  background: white; border: 1px solid var(--border); border-radius: 4px;
-  padding: 14px 12px; text-align: center; box-shadow: 0 1px 6px var(--shadow);
-}
+.kpi { background: white; border: 1px solid var(--border); border-radius: 4px; padding: 14px 12px; text-align: center; box-shadow: 0 1px 6px var(--shadow); }
 .kpi.danger { border-color: var(--rust-light); background: #fff8f6; }
 .kpi.success { border-color: #90c89a; background: #f5fbf6; }
 .kpi.warn { border-color: var(--warm-light); background: #fffbf0; }
 .kpi-label { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--text-muted); margin-bottom:6px; }
-.kpi-val { font-size: 20px; font-weight:800; color:var(--ink); line-height:1; font-family:'JetBrains Mono',monospace; }
-.kpi-val.red { color: var(--rust); }
-.kpi-val.green { color: var(--green); }
-.kpi-val.gold { color: var(--warm); }
+.kpi-val { font-size:20px; font-weight:800; color:var(--ink); line-height:1; font-family:'JetBrains Mono',monospace; }
+.kpi-val.red { color: var(--rust); } .kpi-val.green { color: var(--green); } .kpi-val.gold { color: var(--warm); }
 .kpi-sub { font-size:10px; color:var(--text-muted); margin-top:4px; font-family:'JetBrains Mono',monospace; }
-.swr-banner {
-  background: #fffbf0; border: 1px solid var(--warm-light); border-radius: 4px;
-  padding: 14px 16px; margin-bottom: 16px;
-  font-family: 'JetBrains Mono', monospace;
-}
-.swr-rate { font-size: 28px; font-weight: 800; color: var(--warm); }
-.swr-desc { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.swr-banner { background:#fffbf0; border:1px solid var(--warm-light); border-radius:4px; padding:14px 16px; margin-bottom:16px; font-family:'JetBrains Mono',monospace; }
+.swr-rate { font-size:28px; font-weight:800; color:var(--warm); }
+.swr-desc { font-size:12px; color:var(--text-muted); margin-top:4px; }
 .banner { padding:13px 16px; border-radius:4px; margin-bottom:16px; display:flex; align-items:center; gap:10px; font-size:14px; font-weight:700; border:1px solid; }
 .banner.ok { background:var(--green-pale); border-color:#90c89a; color:var(--green); }
 .banner.ng { background:#fce8e4; border-color:#e0a090; color:var(--rust); }
@@ -180,14 +110,9 @@ input[type="range"]::-webkit-slider-thumb {
 .table-toggle {
   background:none; border:1px solid var(--border); color:var(--text-muted);
   padding:9px 16px; border-radius:4px; cursor:pointer;
-  font-size:11px; font-family:'JetBrains Mono',monospace;
-  margin-top:14px;
-  -webkit-tap-highlight-color: transparent;
+  font-size:11px; font-family:'JetBrains Mono',monospace; margin-top:14px; -webkit-tap-highlight-color:transparent;
 }
-.table-scroll {
-  max-height:320px; overflow-y:auto; border:1px solid var(--border); border-radius:4px; margin-top:12px;
-  -webkit-overflow-scrolling: touch;
-}
+.table-scroll { max-height:320px; overflow-y:auto; border:1px solid var(--border); border-radius:4px; margin-top:12px; -webkit-overflow-scrolling:touch; }
 table { width:100%; border-collapse:collapse; font-family:'JetBrains Mono',monospace; font-size:11px; }
 thead { position:sticky; top:0; background:var(--paper2); z-index:2; }
 th { padding:9px 10px; text-align:right; color:var(--text-muted); font-size:9px; letter-spacing:1px; text-transform:uppercase; border-bottom:1px solid var(--border); font-weight:400; }
@@ -203,9 +128,7 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
 .scenario-card h4 { font-size:11px; margin-bottom:8px; color:var(--text); font-family:'JetBrains Mono',monospace; }
 .sc-row { display:flex; justify-content:space-between; font-size:11px; font-family:'JetBrains Mono',monospace; padding:4px 0; border-bottom:1px solid rgba(200,191,174,0.3); color:var(--text-muted); }
 .sc-row:last-child { border-bottom:none; }
-.sc-val { color:var(--text); }
-.sc-val.red { color:var(--rust); }
-.sc-val.green { color:var(--green); }
+.sc-val { color:var(--text); } .sc-val.red { color:var(--rust); } .sc-val.green { color:var(--green); }
 .spacer { height: 14px; }
 </style>
 </head>
@@ -214,25 +137,34 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
 
 <header>
   <div class="eyebrow">Retirement Planning Tool</div>
-  <h1>퇴직 후 <em>인출</em> 계산기</h1>
-  <p class="subtitle">은퇴 자산이 언제까지 버티는가 — 안전 인출률과 자산 소진 시점을 분석합니다</p>
+  <h1 data-i18n-html="heading">퇴직 후 <em>인출</em> 계산기</h1>
+  <p class="subtitle" data-i18n="subtitle">은퇴 자산이 언제까지 버티는가 — 안전 인출률과 자산 소진 시점을 분석합니다</p>
 </header>
 
 <div class="section">
-  <div class="section-title">계산 방식 선택</div>
+  <div class="section-title" data-i18n="sectionInput">계산 방식 선택</div>
   <div class="tabs">
-    <button class="tab active" onclick="setMode('fixed')" id="tab-fixed">정액 인출<br><small style="opacity:0.7">매달 고정 금액</small></button>
-    <button class="tab" onclick="setMode('rate')" id="tab-rate">정률 인출<br><small style="opacity:0.7">잔액의 N% 매년</small></button>
-    <button class="tab" onclick="setMode('swr')" id="tab-swr">SWR 분석<br><small style="opacity:0.7">안전 인출률 찾기</small></button>
+    <button class="tab active" onclick="setMode('fixed')" id="tab-fixed">
+      <span data-i18n="tabFixed">정액 인출</span><br>
+      <small style="opacity:0.7" data-i18n="tabFixedSub">매달 고정 금액</small>
+    </button>
+    <button class="tab" onclick="setMode('rate')" id="tab-rate">
+      <span data-i18n="tabRate">정률 인출</span><br>
+      <small style="opacity:0.7" data-i18n="tabRateSub">잔액의 N% 매년</small>
+    </button>
+    <button class="tab" onclick="setMode('swr')" id="tab-swr">
+      <span data-i18n="tabSwr">SWR 분석</span><br>
+      <small style="opacity:0.7" data-i18n="tabSwrSub">안전 인출률 찾기</small>
+    </button>
   </div>
 
   <div class="grid-2" style="margin-bottom:16px;">
     <div class="field">
-      <label>은퇴 시작 자산</label>
+      <label data-i18n="labelNest">은퇴 시작 자산</label>
       <div class="input-wrap"><span class="pfx">₩</span><input type="number" id="nest" value="500000000" inputmode="numeric"></div>
     </div>
     <div class="field">
-      <label>은퇴 시작 연도</label>
+      <label data-i18n="labelStartYear">은퇴 시작 연도</label>
       <div class="input-wrap"><span class="pfx" style="font-size:10px">년</span><input type="number" id="startYear" value="2034" style="padding-left:24px;" inputmode="numeric"></div>
     </div>
   </div>
@@ -240,16 +172,16 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
   <div id="mode-fixed">
     <div class="grid-2" style="margin-bottom:16px;">
       <div class="field">
-        <label>월 인출액</label>
+        <label data-i18n="labelMonthly">월 인출액</label>
         <div class="input-wrap"><span class="pfx">₩</span><input type="number" id="monthly" value="3000000" inputmode="numeric"></div>
       </div>
       <div class="field">
-        <label>물가상승률 반영</label>
+        <label data-i18n="labelInflation">물가상승률 반영</label>
         <select id="inflation">
-          <option value="0">반영 안함</option>
-          <option value="2" selected>2% (보통)</option>
-          <option value="3">3% (높음)</option>
-          <option value="3.5">3.5%</option>
+          <option value="0" data-i18n="inflNone">반영 안함</option>
+          <option value="2" selected data-i18n="infl2">2% (보통)</option>
+          <option value="3" data-i18n="infl3">3% (높음)</option>
+          <option value="3.5" data-i18n="infl35">3.5%</option>
         </select>
       </div>
     </div>
@@ -258,7 +190,7 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
   <div id="mode-rate" style="display:none;">
     <div class="range-block" style="margin-bottom:16px;">
       <div class="range-header">
-        <span class="range-label">연간 인출률</span>
+        <span class="range-label" data-i18n="labelWRate">연간 인출률</span>
         <span class="range-val" id="rateLabel">4.0%</span>
       </div>
       <input type="range" id="wRate" min="1" max="15" step="0.1" value="4"
@@ -268,14 +200,14 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
 
   <div id="mode-swr" style="display:none;">
     <div class="field" style="margin-bottom:16px;">
-      <label>자산 유지 목표 기간</label>
-      <div class="input-wrap"><span class="pfx" style="font-size:10px">년</span><input type="number" id="swrYears" value="30" style="padding-left:24px;" inputmode="numeric"></div>
+      <label data-i18n="labelSwrYears">자산 유지 목표 기간</label>
+      <div class="input-wrap"><span class="pfx" style="font-size:10px" data-i18n="unitYear">년</span><input type="number" id="swrYears" value="30" style="padding-left:24px;" inputmode="numeric"></div>
     </div>
   </div>
 
   <div class="range-block" style="margin-bottom:16px;">
     <div class="range-header">
-      <span class="range-label">포트폴리오 연평균 수익률</span>
+      <span class="range-label" data-i18n="labelRetRate">포트폴리오 연평균 수익률</span>
       <span class="range-val" id="returnLabel">5.0%</span>
     </div>
     <input type="range" id="retRate" min="0" max="15" step="0.5" value="5"
@@ -284,14 +216,14 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
 
   <div class="range-block" style="margin-bottom:16px;">
     <div class="range-header">
-      <span class="range-label">예측 기간 (기대 수명 기준)</span>
-      <span class="range-val" id="lifeLabel">30년</span>
+      <span class="range-label" data-i18n="labelLifespan">예측 기간 (기대 수명 기준)</span>
+      <span class="range-val" id="lifeLabel">30<span data-i18n="unitYear">년</span></span>
     </div>
     <input type="range" id="lifespan" min="10" max="50" step="1" value="30"
-      oninput="document.getElementById('lifeLabel').textContent=this.value+'년'">
+      oninput="updateLifeLabel(this.value)">
   </div>
 
-  <button class="btn" onclick="calculate()">✦ 계산하기</button>
+  <button class="btn" onclick="calculate()" data-i18n="btnCalculate">✦ 계산하기</button>
 </div>
 
 <div class="results" id="results">
@@ -299,22 +231,30 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
   <div id="banner"></div>
 
   <div class="section">
-    <div class="section-title">자산 잔액 추이</div>
+    <div class="section-title" data-i18n="sectionChart">자산 잔액 추이</div>
     <div class="chart-wrap"><canvas id="chart"></canvas></div>
   </div>
 
   <div class="section" id="scenarioSection" style="display:none;">
-    <div class="section-title">시나리오 비교</div>
+    <div class="section-title" data-i18n="sectionScenario">시나리오 비교</div>
     <div class="scenario-grid" id="scenarioGrid"></div>
   </div>
 
   <div class="section">
-    <div class="section-title">연도별 인출 내역</div>
-    <button class="table-toggle" onclick="toggleTable()">▼ 상세 내역 보기</button>
+    <div class="section-title" data-i18n="sectionTable">연도별 인출 내역</div>
+    <button class="table-toggle" id="tableToggleBtn" onclick="toggleTable()" data-i18n="btnTableExpand">▼ 상세 내역 보기</button>
     <div id="tableWrap" style="display:none;">
       <div class="table-scroll">
         <table>
-          <thead><tr><th>연도</th><th>연간 인출액</th><th>운용수익</th><th>연말 잔액</th><th>소진율</th></tr></thead>
+          <thead>
+            <tr>
+              <th data-i18n="thYear">연도</th>
+              <th data-i18n="thWithdraw">연간 인출액</th>
+              <th data-i18n="thGain">운용수익</th>
+              <th data-i18n="thBalance">연말 잔액</th>
+              <th data-i18n="thDepletion">소진율</th>
+            </tr>
+          </thead>
           <tbody id="tbody"></tbody>
         </table>
       </div>
@@ -323,56 +263,192 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
 </div>
 
 </div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
+// ── i18n ───────────────────────────────────────────────────────────────────
+const i18n = {
+  ko: {
+    heading: '퇴직 후 <em>인출</em> 계산기',
+    subtitle: '은퇴 자산이 언제까지 버티는가 — 안전 인출률과 자산 소진 시점을 분석합니다',
+    sectionInput: '계산 방식 선택',
+    tabFixed: '정액 인출', tabFixedSub: '매달 고정 금액',
+    tabRate: '정률 인출', tabRateSub: '잔액의 N% 매년',
+    tabSwr: 'SWR 분석', tabSwrSub: '안전 인출률 찾기',
+    labelNest: '은퇴 시작 자산', labelStartYear: '은퇴 시작 연도',
+    labelMonthly: '월 인출액', labelInflation: '물가상승률 반영',
+    inflNone: '반영 안함', infl2: '2% (보통)', infl3: '3% (높음)', infl35: '3.5%',
+    labelWRate: '연간 인출률', labelSwrYears: '자산 유지 목표 기간',
+    labelRetRate: '포트폴리오 연평균 수익률', labelLifespan: '예측 기간 (기대 수명 기준)',
+    unitYear: '년', btnCalculate: '✦ 계산하기',
+    kpiDuration: '자산 지속', kpiMonthly: '월 인출액', kpiTotal: '총 인출 합계', kpiBalance: '잔액',
+    kpiDepleted: '소진됨', kpiRemains: '잔액 남음', kpiWithin: '기간 내 유지',
+    kpiDepletedAt: (y, cy) => `${cy}년 소진`,
+    kpiPlus: (n) => `${n}년+`,
+    kpiAnnual: (v) => `연 ${v}원`,
+    kpiOfPrincipal: (p) => `원금의 ${p}%`,
+    bannerOk: (n, bal) => `${n}년 기간 동안 자산이 유지됩니다. 최종 잔액 <strong>${bal}</strong>이 남습니다.`,
+    bannerNg: (y, cy, lack) => `은퇴 후 <strong>${y}년차</strong> (${cy}년)에 자산이 소진됩니다. 목표보다 <strong>${lack}년</strong> 부족합니다.`,
+    swrDesc: (targetYears, monthly) => `월 ${monthly} 인출 시 ${targetYears}년간 자산 소진 없음`,
+    sectionChart: '자산 잔액 추이', sectionScenario: '시나리오 비교', sectionTable: '연도별 인출 내역',
+    btnTableExpand: '▼ 상세 내역 보기', btnTableCollapse: '▲ 상세 내역 접기',
+    thYear: '연도', thWithdraw: '연간 인출액', thGain: '운용수익', thBalance: '연말 잔액', thDepletion: '소진율',
+    tagDepleted: '소진', tagEnd: '종료',
+    scWithdrawRate: '인출률', scMonthly: '월 인출액', scDuration: '자산 지속', scBalance: '최종 잔액',
+    scDepleted: (n) => `${n}년차 소진`, scSustained: (n) => `${n}년 유지`,
+    chartBalance: '자산 잔액', chartWithdraw: '연간 인출액',
+    yearRow: (cy, n) => `${cy}년 (${n}년차)`,
+    scLabels: ['보수적 (SWR-1%)', '안전 인출률', '적극적 (SWR+1%)'],
+    won: '원', man: '만', uk: '억',
+  },
+  en: {
+    heading: 'Retirement <em>Withdrawal</em> Calculator',
+    subtitle: 'How long will your nest egg last? Analyze safe withdrawal rates and depletion timing.',
+    sectionInput: 'Calculation Mode',
+    tabFixed: 'Fixed Amount', tabFixedSub: 'Set monthly draw',
+    tabRate: 'Fixed Rate', tabRateSub: 'N% of balance yearly',
+    tabSwr: 'SWR Analysis', tabSwrSub: 'Find safe rate',
+    labelNest: 'Retirement Nest Egg', labelStartYear: 'Retirement Start Year',
+    labelMonthly: 'Monthly Withdrawal', labelInflation: 'Inflation Adjustment',
+    inflNone: 'None', infl2: '2% (moderate)', infl3: '3% (high)', infl35: '3.5%',
+    labelWRate: 'Annual Withdrawal Rate', labelSwrYears: 'Target Sustainability Period',
+    labelRetRate: 'Portfolio Annual Return', labelLifespan: 'Forecast Period (Life Expectancy)',
+    unitYear: 'yr', btnCalculate: '✦ Calculate',
+    kpiDuration: 'Asset Duration', kpiMonthly: 'Monthly Draw', kpiTotal: 'Total Withdrawn', kpiBalance: 'Balance',
+    kpiDepleted: 'Depleted', kpiRemains: 'Remaining', kpiWithin: 'Sustained',
+    kpiDepletedAt: (y, cy) => `Depleted ${cy}`,
+    kpiPlus: (n) => `${n}yr+`,
+    kpiAnnual: (v) => `Annual ${v}`,
+    kpiOfPrincipal: (p) => `${p}% of principal`,
+    bannerOk: (n, bal) => `Assets sustained for ${n} years. Final balance: <strong>${bal}</strong>.`,
+    bannerNg: (y, cy, lack) => `Assets depleted in year <strong>${y}</strong> (${cy}). <strong>${lack} years</strong> short of target.`,
+    swrDesc: (targetYears, monthly) => `${monthly}/mo withdrawal sustains assets for ${targetYears} years`,
+    sectionChart: 'Asset Balance Trend', sectionScenario: 'Scenario Comparison', sectionTable: 'Annual Withdrawal Detail',
+    btnTableExpand: '▼ Show Detail', btnTableCollapse: '▲ Collapse',
+    thYear: 'Year', thWithdraw: 'Annual Draw', thGain: 'Returns', thBalance: 'Year-end Balance', thDepletion: 'Depletion',
+    tagDepleted: 'Depleted', tagEnd: 'End',
+    scWithdrawRate: 'Withdrawal Rate', scMonthly: 'Monthly', scDuration: 'Duration', scBalance: 'Final Balance',
+    scDepleted: (n) => `Depleted yr${n}`, scSustained: (n) => `${n}yr sustained`,
+    chartBalance: 'Asset Balance', chartWithdraw: 'Annual Withdrawal',
+    yearRow: (cy, n) => `${cy} (yr ${n})`,
+    scLabels: ['Conservative (SWR-1%)', 'Safe Withdrawal Rate', 'Aggressive (SWR+1%)'],
+    won: '', man: '만', uk: '억',
+  },
+  ja: {
+    heading: '退職後 <em>引き出し</em> 計算機',
+    subtitle: '老後資産はいつまで持つか — 安全引き出し率と資産枯渇時点を分析します',
+    sectionInput: '計算方式の選択',
+    tabFixed: '定額引出', tabFixedSub: '毎月固定金額',
+    tabRate: '定率引出', tabRateSub: '残高のN%を毎年',
+    tabSwr: 'SWR分析', tabSwrSub: '安全引出率を算出',
+    labelNest: '退職時の資産', labelStartYear: '退職開始年',
+    labelMonthly: '月次引き出し額', labelInflation: 'インフレ反映',
+    inflNone: '反映なし', infl2: '2%（普通）', infl3: '3%（高め）', infl35: '3.5%',
+    labelWRate: '年間引き出し率', labelSwrYears: '資産維持目標期間',
+    labelRetRate: 'ポートフォリオ年平均収益率', labelLifespan: '予測期間（平均余命ベース）',
+    unitYear: '年', btnCalculate: '✦ 計算する',
+    kpiDuration: '資産継続', kpiMonthly: '月次引出', kpiTotal: '総引出合計', kpiBalance: '残高',
+    kpiDepleted: '枯渇', kpiRemains: '残高あり', kpiWithin: '期間内維持',
+    kpiDepletedAt: (y, cy) => `${cy}年 枯渇`,
+    kpiPlus: (n) => `${n}年以上`,
+    kpiAnnual: (v) => `年間 ${v}`,
+    kpiOfPrincipal: (p) => `元本比 ${p}%`,
+    bannerOk: (n, bal) => `${n}年間資産が維持されます。最終残高 <strong>${bal}</strong>。`,
+    bannerNg: (y, cy, lack) => `退職後 <strong>${y}年目</strong>（${cy}年）に資産枯渇。目標より <strong>${lack}年</strong> 不足。`,
+    swrDesc: (targetYears, monthly) => `月${monthly}引出で${targetYears}年間資産維持`,
+    sectionChart: '資産残高推移', sectionScenario: 'シナリオ比較', sectionTable: '年別引出明細',
+    btnTableExpand: '▼ 詳細を表示', btnTableCollapse: '▲ 閉じる',
+    thYear: '年度', thWithdraw: '年間引出額', thGain: '運用益', thBalance: '年末残高', thDepletion: '枯渇率',
+    tagDepleted: '枯渇', tagEnd: '終了',
+    scWithdrawRate: '引出率', scMonthly: '月次引出', scDuration: '資産継続', scBalance: '最終残高',
+    scDepleted: (n) => `${n}年目枯渇`, scSustained: (n) => `${n}年維持`,
+    chartBalance: '資産残高', chartWithdraw: '年間引出額',
+    yearRow: (cy, n) => `${cy}年（${n}年目）`,
+    scLabels: ['保守的（SWR-1%）', '安全引出率', '積極的（SWR+1%）'],
+    won: '相当', man: '万', uk: '億',
+  },
+};
+
+let currentLang = 'ko';
 let mode = 'fixed';
 let chartInst = null;
 
-function setMode(m) {
-  mode = m;
-  ['fixed','rate','swr'].forEach(x => {
-    document.getElementById('mode-'+x).style.display = x===m ? 'block' : 'none';
-    document.getElementById('tab-'+x).classList.toggle('active', x===m);
-  });
+// ── 언어 적용 ───────────────────────────────────────────────────────────────
+function setLanguage(lang) {
+  if (!i18n[lang]) return;
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  applyTranslations();
+  if (document.getElementById('results').classList.contains('visible')) calculate();
 }
 
-function fmt(n) {
+function applyTranslations() {
+  const t = i18n[currentLang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (t[k] !== undefined) el.textContent = t[k];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const k = el.getAttribute('data-i18n-html');
+    if (t[k] !== undefined) el.innerHTML = t[k];
+  });
+  updateLifeLabel(document.getElementById('lifespan').value);
+
+  const tw = document.getElementById('tableWrap');
+  document.getElementById('tableToggleBtn').textContent =
+    tw.style.display === 'none' ? t.btnTableExpand : t.btnTableCollapse;
+}
+
+function updateLifeLabel(val) {
+  const t = i18n[currentLang];
+  document.getElementById('lifeLabel').textContent = val + t.unitYear;
+}
+
+// ── 숫자 포맷 ───────────────────────────────────────────────────────────────
+function fmtFull(n) {
+  const t = i18n[currentLang];
+  if (Math.abs(n) >= 1e8) {
+    const uk = Math.floor(Math.abs(n) / 1e8);
+    const man = Math.round((Math.abs(n) % 1e8) / 1e4);
+    return (n < 0 ? '-' : '') + uk + t.uk + (man > 0 ? ' ' + man + t.man : '') + t.won;
+  }
+  return Math.round(n / 1e4) + t.man + t.won;
+}
+
+function fmtShort(n) {
+  const t = i18n[currentLang];
   const abs = Math.abs(n);
-  if (abs >= 1e8) return (n/1e8).toFixed(2)+'억';
-  if (abs >= 1e4) return Math.round(n/1e4)+'만';
+  if (abs >= 1e8) return (n / 1e8).toFixed(2) + t.uk;
+  if (abs >= 1e4) return Math.round(n / 1e4) + t.man;
   return Math.round(n).toLocaleString();
 }
 
-function fmtFull(n) {
-  if (Math.abs(n) >= 1e8) {
-    const uk = Math.floor(Math.abs(n)/1e8);
-    const man = Math.round((Math.abs(n)%1e8)/1e4);
-    return (n<0?'-':'') + uk+'억'+(man>0?' '+man+'만':'');
-  }
-  return Math.round(n/1e4)+'만원';
+// ── 모드 전환 ───────────────────────────────────────────────────────────────
+function setMode(m) {
+  mode = m;
+  ['fixed', 'rate', 'swr'].forEach(x => {
+    document.getElementById('mode-' + x).style.display = x === m ? 'block' : 'none';
+    document.getElementById('tab-' + x).classList.toggle('active', x === m);
+  });
 }
 
+// ── 시뮬레이션 ──────────────────────────────────────────────────────────────
 function simulate(nest, annualWithdrawal, returnRate, years, inflationRate) {
   const rows = [];
-  let balance = nest;
-  let withdrawal = annualWithdrawal;
-  let depletedYear = null;
-
+  let balance = nest, withdrawal = annualWithdrawal, depletedYear = null;
   for (let y = 1; y <= years; y++) {
-    if (depletedYear) {
-      rows.push({ y, withdrawal: 0, gain: 0, balance: 0, depleted: true });
-      continue;
-    }
+    if (depletedYear) { rows.push({ y, withdrawal: 0, gain: 0, balance: 0, depleted: true }); continue; }
     const gain = balance * (returnRate / 100);
     const w = Math.min(withdrawal, balance + gain);
     balance = balance + gain - w;
     if (balance <= 0) { balance = 0; depletedYear = y; }
     rows.push({ y, withdrawal: w, gain, balance, depleted: balance <= 0 });
-    withdrawal *= (1 + (inflationRate||0)/100);
+    withdrawal *= (1 + (inflationRate || 0) / 100);
   }
   return { rows, depletedYear };
 }
 
+// ── 계산 ────────────────────────────────────────────────────────────────────
 function calculate() {
   const nest = parseFloat(document.getElementById('nest').value) || 0;
   const startYear = parseInt(document.getElementById('startYear').value) || 2034;
@@ -383,144 +459,155 @@ function calculate() {
 
   let annualWithdrawal, inflationRate = 0;
   if (mode === 'fixed') {
-    annualWithdrawal = (parseFloat(document.getElementById('monthly').value)||0) * 12;
-    inflationRate = parseFloat(document.getElementById('inflation').value)||0;
+    annualWithdrawal = (parseFloat(document.getElementById('monthly').value) || 0) * 12;
+    inflationRate = parseFloat(document.getElementById('inflation').value) || 0;
   } else {
-    annualWithdrawal = nest * (parseFloat(document.getElementById('wRate').value)/100);
+    annualWithdrawal = nest * (parseFloat(document.getElementById('wRate').value) / 100);
   }
 
   const { rows, depletedYear } = simulate(nest, annualWithdrawal, retRate, lifespan, inflationRate);
-  renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, lifespan, retRate, inflationRate);
+  renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, lifespan, retRate);
 }
 
 function runSWR(nest, startYear, retRate, lifespan) {
-  const targetYears = parseInt(document.getElementById('swrYears').value)||30;
+  const targetYears = parseInt(document.getElementById('swrYears').value) || 30;
   let lo = 0, hi = 20, safeSWR = 0;
   for (let i = 0; i < 80; i++) {
     const mid = (lo + hi) / 2;
-    const { depletedYear } = simulate(nest, nest*mid/100, retRate, targetYears, 0);
+    const { depletedYear } = simulate(nest, nest * mid / 100, retRate, targetYears, 0);
     if (!depletedYear) { lo = mid; safeSWR = mid; } else hi = mid;
   }
   const annualW = nest * safeSWR / 100;
   const { rows, depletedYear } = simulate(nest, annualW, retRate, lifespan, 0);
-  const scenarios = [
-    { label: '보수적 (SWR-1%)', rate: Math.max(safeSWR-1,0.5) },
-    { label: '안전 인출률', rate: safeSWR },
-    { label: '적극적 (SWR+1%)', rate: safeSWR+1 },
-  ].map(s => {
-    const r = simulate(nest, nest*s.rate/100, retRate, lifespan, 0);
-    return { ...s, monthly: nest*s.rate/100/12, depletedYear: r.depletedYear, lastBalance: r.rows[r.rows.length-1].balance };
+  const t = i18n[currentLang];
+  const scenarios = t.scLabels.map((label, i) => {
+    const rate = i === 0 ? Math.max(safeSWR - 1, 0.5) : i === 1 ? safeSWR : safeSWR + 1;
+    const r = simulate(nest, nest * rate / 100, retRate, lifespan, 0);
+    return { label, rate, monthly: nest * rate / 100 / 12, depletedYear: r.depletedYear, lastBalance: r.rows[r.rows.length - 1].balance };
   });
-  renderResults(rows, depletedYear, nest, annualW, startYear, lifespan, retRate, 0, safeSWR, annualW/12, scenarios);
+  renderResults(rows, depletedYear, nest, annualW, startYear, lifespan, retRate, safeSWR, annualW / 12, scenarios);
 }
 
-function renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, lifespan, retRate, inflationRate, safeSWR, safeMonthly, scenarioData) {
-  const lastRow = rows[rows.length-1];
-  const totalWithdrawn = rows.reduce((s,r) => s+r.withdrawal, 0);
+// ── 결과 렌더링 ─────────────────────────────────────────────────────────────
+function renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, lifespan, retRate, safeSWR, safeMonthly, scenarioData) {
+  const t = i18n[currentLang];
+  const lastRow = rows[rows.length - 1];
+  const totalWithdrawn = rows.reduce((s, r) => s + r.withdrawal, 0);
   const finalBalance = lastRow.balance;
   const endYear = startYear + lifespan - 1;
 
-  let swrKpi = '';
-  if (safeSWR) {
-    swrKpi = `<div class="swr-banner" style="margin-bottom:16px;">
-      <div class="swr-rate">${safeSWR.toFixed(2)}%</div>
-      <div class="swr-desc">안전 인출률 — 월 ${fmt(safeMonthly)}원 인출 시 ${parseInt(document.getElementById('swrYears').value)}년간 자산 유지</div>
-    </div>`;
-  }
-
+  // KPI
   document.getElementById('kpiRow').innerHTML = `
     <div class="kpi ${depletedYear ? 'danger' : 'success'}">
-      <div class="kpi-label">자산 지속</div>
-      <div class="kpi-val ${depletedYear ? 'red' : 'green'}">${depletedYear ? depletedYear+'년차' : lifespan+'년+'}</div>
-      <div class="kpi-sub">${depletedYear ? (startYear+depletedYear-1)+'년 소진' : '기간 내 유지'}</div>
+      <div class="kpi-label">${t.kpiDuration}</div>
+      <div class="kpi-val ${depletedYear ? 'red' : 'green'}">${depletedYear ? depletedYear + t.unitYear : t.kpiPlus(lifespan)}</div>
+      <div class="kpi-sub">${depletedYear ? t.kpiDepletedAt(depletedYear, startYear + depletedYear - 1) : t.kpiWithin}</div>
     </div>
     <div class="kpi warn">
-      <div class="kpi-label">월 인출액</div>
-      <div class="kpi-val gold">${fmt(annualWithdrawal/12)}</div>
-      <div class="kpi-sub">연 ${fmt(annualWithdrawal)}원</div>
+      <div class="kpi-label">${t.kpiMonthly}</div>
+      <div class="kpi-val gold">${fmtShort(annualWithdrawal / 12)}</div>
+      <div class="kpi-sub">${t.kpiAnnual(fmtFull(annualWithdrawal))}</div>
     </div>
     <div class="kpi">
-      <div class="kpi-label">총 인출 합계</div>
-      <div class="kpi-val">${fmt(totalWithdrawn)}</div>
-      <div class="kpi-sub">원금의 ${(totalWithdrawn/nest*100).toFixed(0)}%</div>
+      <div class="kpi-label">${t.kpiTotal}</div>
+      <div class="kpi-val">${fmtShort(totalWithdrawn)}</div>
+      <div class="kpi-sub">${t.kpiOfPrincipal((totalWithdrawn / nest * 100).toFixed(0))}</div>
     </div>
     <div class="kpi ${finalBalance > 0 ? 'success' : 'danger'}">
-      <div class="kpi-label">${endYear}년 잔액</div>
-      <div class="kpi-val ${finalBalance > 0 ? 'green' : 'red'}">${finalBalance > 0 ? fmt(finalBalance) : '0'}</div>
-      <div class="kpi-sub">${finalBalance > 0 ? '잔액 남음' : '소진됨'}</div>
+      <div class="kpi-label">${endYear} ${t.unitYear} ${t.kpiBalance}</div>
+      <div class="kpi-val ${finalBalance > 0 ? 'green' : 'red'}">${finalBalance > 0 ? fmtShort(finalBalance) : '0'}</div>
+      <div class="kpi-sub">${finalBalance > 0 ? t.kpiRemains : t.kpiDepleted}</div>
     </div>
   `;
 
-  document.getElementById('banner').innerHTML = swrKpi + (depletedYear
-    ? `<div class="banner ng"><span style="font-size:18px;">⚠️</span><span>은퇴 후 <strong>${depletedYear}년차</strong> (${startYear+depletedYear-1}년)에 자산 소진. 목표보다 <strong>${lifespan-depletedYear}년</strong> 부족</span></div>`
-    : `<div class="banner ok"><span style="font-size:18px;">✓</span><span>${lifespan}년 자산 유지. 최종 잔액 <strong>${fmtFull(finalBalance)}</strong></span></div>`);
+  // SWR 배너 + 상태 배너
+  let swrHtml = '';
+  if (safeSWR) {
+    swrHtml = `<div class="swr-banner">
+      <div class="swr-rate">${safeSWR.toFixed(2)}%</div>
+      <div class="swr-desc">${t.swrDesc(parseInt(document.getElementById('swrYears').value), fmtFull(safeMonthly))}</div>
+    </div>`;
+  }
 
+  document.getElementById('banner').innerHTML = swrHtml + (depletedYear
+    ? `<div class="banner ng"><span style="font-size:18px;">⚠️</span><span>${t.bannerNg(depletedYear, startYear + depletedYear - 1, lifespan - depletedYear)}</span></div>`
+    : `<div class="banner ok"><span style="font-size:18px;">✓</span><span>${t.bannerOk(lifespan, fmtFull(finalBalance))}</span></div>`);
+
+  // 차트
   if (chartInst) chartInst.destroy();
   const ctx = document.getElementById('chart').getContext('2d');
   chartInst = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: rows.map(r => (startYear+r.y-1)+'년'),
+      labels: rows.map(r => (startYear + r.y - 1) + (currentLang === 'en' ? '' : t.unitYear)),
       datasets: [
-        { type:'line', label:'자산 잔액', data: rows.map(r => Math.max(r.balance,0)),
-          borderColor:'#2a6640', backgroundColor:'rgba(42,102,64,0.08)', fill:true, tension:0.4,
-          pointRadius: rows.length>25?0:3, borderWidth:2, yAxisID:'y' },
-        { type:'bar', label:'연간 인출액', data: rows.map(r=>r.withdrawal),
-          backgroundColor:'rgba(139,105,20,0.2)', borderColor:'rgba(139,105,20,0.4)', borderWidth:1, yAxisID:'y' }
+        {
+          type: 'line', label: t.chartBalance, data: rows.map(r => Math.max(r.balance, 0)),
+          borderColor: '#2a6640', backgroundColor: 'rgba(42,102,64,0.08)', fill: true, tension: 0.4,
+          pointRadius: rows.length > 25 ? 0 : 3, borderWidth: 2, yAxisID: 'y'
+        },
+        {
+          type: 'bar', label: t.chartWithdraw, data: rows.map(r => r.withdrawal),
+          backgroundColor: 'rgba(139,105,20,0.2)', borderColor: 'rgba(139,105,20,0.4)', borderWidth: 1, yAxisID: 'y'
+        }
       ]
     },
     options: {
-      responsive:true, maintainAspectRatio:false,
-      interaction:{ mode:'index', intersect:false },
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend:{ labels:{ color:'#7a6e62', font:{ family:'JetBrains Mono', size:10 }, boxWidth:10 } },
-        tooltip:{ backgroundColor:'white', borderColor:'#c8bfae', borderWidth:1, titleColor:'#2a2420', bodyColor:'#7a6e62',
-          callbacks:{ label: ctx=>' '+ctx.dataset.label+': '+fmtFull(ctx.raw) } }
+        legend: { labels: { color: '#7a6e62', font: { family: 'JetBrains Mono', size: 10 }, boxWidth: 10 } },
+        tooltip: {
+          backgroundColor: 'white', borderColor: '#c8bfae', borderWidth: 1, titleColor: '#2a2420', bodyColor: '#7a6e62',
+          callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + fmtFull(ctx.raw) }
+        }
       },
-      scales:{
-        x:{ ticks:{ color:'#7a6e62', font:{ family:'JetBrains Mono', size:10 }, maxTicksLimit:10 }, grid:{ color:'rgba(200,191,174,0.3)' } },
-        y:{ ticks:{ color:'#7a6e62', font:{ family:'JetBrains Mono', size:10 }, callback: v=>fmt(v) }, grid:{ color:'rgba(200,191,174,0.3)' } }
+      scales: {
+        x: { ticks: { color: '#7a6e62', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 12 }, grid: { color: 'rgba(200,191,174,0.3)' } },
+        y: { ticks: { color: '#7a6e62', font: { family: 'JetBrains Mono', size: 10 }, callback: v => fmtShort(v) }, grid: { color: 'rgba(200,191,174,0.3)' } }
       }
     }
   });
 
+  // 시나리오
   if (scenarioData) {
     document.getElementById('scenarioSection').style.display = 'block';
     document.getElementById('scenarioGrid').innerHTML = scenarioData.map(s => `
       <div class="scenario-card">
         <h4>${s.label}</h4>
-        <div class="sc-row"><span>인출률</span><span class="sc-val">${s.rate.toFixed(2)}%</span></div>
-        <div class="sc-row"><span>월 인출액</span><span class="sc-val">${fmt(s.monthly)}원</span></div>
-        <div class="sc-row"><span>자산 지속</span><span class="sc-val ${s.depletedYear?'red':'green'}">${s.depletedYear ? s.depletedYear+'년차 소진' : lifespan+'년 유지'}</span></div>
-        <div class="sc-row"><span>최종 잔액</span><span class="sc-val ${s.lastBalance>0?'green':'red'}">${s.lastBalance>0?fmtFull(s.lastBalance):'0'}</span></div>
+        <div class="sc-row"><span>${t.scWithdrawRate}</span><span class="sc-val">${s.rate.toFixed(2)}%</span></div>
+        <div class="sc-row"><span>${t.scMonthly}</span><span class="sc-val">${fmtFull(s.monthly)}</span></div>
+        <div class="sc-row"><span>${t.scDuration}</span><span class="sc-val ${s.depletedYear ? 'red' : 'green'}">${s.depletedYear ? t.scDepleted(s.depletedYear) : t.scSustained(lifespan)}</span></div>
+        <div class="sc-row"><span>${t.scBalance}</span><span class="sc-val ${s.lastBalance > 0 ? 'green' : 'red'}">${s.lastBalance > 0 ? fmtFull(s.lastBalance) : '0'}</span></div>
       </div>`).join('');
   } else {
     document.getElementById('scenarioSection').style.display = 'none';
   }
 
+  // 테이블
   document.getElementById('tbody').innerHTML = rows.map(r => {
-    const year = startYear + r.y - 1;
-    const pct = r.balance > 0 ? ((nest-r.balance)/nest*100).toFixed(0)+'%' : '100%';
+    const cy = startYear + r.y - 1;
+    const pct = r.balance > 0 ? ((nest - r.balance) / nest * 100).toFixed(0) + '%' : '100%';
     const isLast = r.y === lifespan;
-    return `<tr class="${r.depleted?'depleted':isLast?'last-year':''}">
-      <td>${year}년 (${r.y}년차)${r.depleted?'<span class="tag">소진</span>':isLast?'<span class="tag ok">종료</span>':''}</td>
-      <td>${fmt(r.withdrawal)}원</td>
-      <td>+${fmt(r.gain)}원</td>
-      <td>${r.balance>0 ? fmtFull(r.balance) : '<span style="color:var(--rust)">0</span>'}</td>
+    return `<tr class="${r.depleted ? 'depleted' : isLast ? 'last-year' : ''}">
+      <td>${t.yearRow(cy, r.y)}${r.depleted ? `<span class="tag">${t.tagDepleted}</span>` : isLast ? `<span class="tag ok">${t.tagEnd}</span>` : ''}</td>
+      <td>${fmtFull(r.withdrawal)}</td>
+      <td>+${fmtFull(r.gain)}</td>
+      <td>${r.balance > 0 ? fmtFull(r.balance) : '<span style="color:var(--rust)">0</span>'}</td>
       <td>${pct}</td>
     </tr>`;
   }).join('');
 
   document.getElementById('results').classList.add('visible');
-  document.getElementById('results').scrollIntoView({ behavior:'smooth', block:'start' });
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function toggleTable() {
+  const t = i18n[currentLang];
   const w = document.getElementById('tableWrap');
-  const b = document.querySelector('.table-toggle');
   const open = w.style.display === 'none';
   w.style.display = open ? 'block' : 'none';
-  b.textContent = open ? '▲ 상세 내역 접기' : '▼ 상세 내역 보기';
+  document.getElementById('tableToggleBtn').textContent = open ? t.btnTableCollapse : t.btnTableExpand;
 }
 
 calculate();

@@ -17,6 +17,7 @@ class CalculatorFragment : Fragment() {
 
     private var _binding: FragmentCalculatorBinding? = null
     private val binding get() = _binding!!
+    private var pageLoaded = false
 
     companion object {
         private const val ARG_HTML_FILE = "html_file"
@@ -56,15 +57,14 @@ class CalculatorFragment : Fragment() {
         binding.webView.webViewClient = object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 binding.progressBar.visibility = View.GONE
+                pageLoaded = true
+                injectLanguage(view)
             }
 
             override fun shouldOverrideUrlLoading(
                 view: WebView?,
                 request: WebResourceRequest?
-            ): Boolean {
-                // 외부 링크는 WebView 내에서만 처리
-                return false
-            }
+            ): Boolean = false
         }
 
         binding.webView.webChromeClient = object : WebChromeClient() {
@@ -83,8 +83,21 @@ class CalculatorFragment : Fragment() {
         return binding.root
     }
 
+    /** MainActivity에서 언어 변경 시 호출 */
+    fun updateLanguage(lang: String) {
+        if (pageLoaded && _binding != null) {
+            binding.webView.evaluateJavascript("setLanguage('$lang')", null)
+        }
+    }
+
+    private fun injectLanguage(view: WebView?) {
+        val lang = LanguageManager.get(requireContext())
+        view?.evaluateJavascript("setLanguage('$lang')", null)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        pageLoaded = false
         binding.webView.destroy()
         _binding = null
     }

@@ -16,6 +16,19 @@
 - **SWR 분석**: 자산 소진 없이 유지 가능한 안전 인출률 자동 계산
 - 자산 소진 시점, 잔액 추이 차트, 시나리오 3종 비교
 
+## 지원 언어
+
+앱 상단 오른쪽 언어 버튼(KO / EN / JA)으로 전환합니다.
+
+| 코드 | 언어 |
+|---|---|
+| KO | 한국어 (기본) |
+| EN | English |
+| JA | 日本語 |
+
+> 언어 설정은 앱을 재시작해도 유지됩니다.
+> Android 시스템 언어와 무관하게 앱 내 언어를 독립적으로 선택할 수 있습니다.
+
 ## 기술 스택
 
 | 항목 | 내용 |
@@ -24,6 +37,7 @@
 | 최소 SDK | API 26 (Android 8.0 Oreo) |
 | 타겟 SDK | API 34 (Android 14) |
 | UI 방식 | WebView + BottomNavigationView |
+| 다국어 | 한국어 · English · 日本語 (in-page JS i18n) |
 | 차트 | Chart.js 4.4.1 (CDN) |
 | 폰트 | Noto Serif KR, DM Mono, Nanum Myeongjo, JetBrains Mono (Google Fonts CDN) |
 
@@ -45,7 +59,9 @@ retirementcalculator/
 │           ├── layout/                      # activity_main, fragment_calculator
 │           ├── menu/                        # bottom_nav_menu
 │           ├── mipmap-anydpi-v26/           # Adaptive 런처 아이콘
-│           └── values/                      # colors, strings, themes
+│           ├── values/                      # colors, strings(KO), themes
+│           ├── values-en/                   # strings(EN)
+│           └── values-ja/                   # strings(JA)
 ├── build.gradle
 ├── settings.gradle
 └── gradle.properties

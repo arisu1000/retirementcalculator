@@ -32,15 +32,9 @@
     -webkit-text-size-adjust: 100%;
   }
 
-  .container {
-    max-width: 860px;
-    margin: 0 auto;
-  }
+  .container { max-width: 860px; margin: 0 auto; }
 
-  header {
-    text-align: center;
-    margin-bottom: 28px;
-  }
+  header { text-align: center; margin-bottom: 28px; }
 
   .eyebrow {
     font-family: 'DM Mono', monospace;
@@ -51,283 +45,113 @@
     margin-bottom: 10px;
   }
 
-  h1 {
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.2;
-    letter-spacing: -0.5px;
-  }
-
+  h1 { font-size: 26px; font-weight: 700; color: var(--text); line-height: 1.2; letter-spacing: -0.5px; }
   h1 span { color: var(--gold); }
 
-  .subtitle {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-top: 8px;
-    font-weight: 400;
-    line-height: 1.5;
-  }
+  .subtitle { font-size: 13px; color: var(--text-muted); margin-top: 8px; font-weight: 400; line-height: 1.5; }
 
   .divider {
-    width: 50px;
-    height: 1px;
+    width: 50px; height: 1px;
     background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
     margin: 16px auto;
   }
 
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 16px;
-    margin-bottom: 16px;
-  }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 16px; margin-bottom: 16px; }
 
   .card-title {
-    font-size: 11px;
-    letter-spacing: 2px;
-    color: var(--gold);
-    text-transform: uppercase;
-    font-family: 'DM Mono', monospace;
-    margin-bottom: 18px;
-    padding-bottom: 12px;
+    font-size: 11px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase;
+    font-family: 'DM Mono', monospace; margin-bottom: 18px; padding-bottom: 12px;
     border-bottom: 1px solid var(--border);
   }
 
-  .grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-
-  @media (max-width: 400px) {
-    .grid-2 { grid-template-columns: 1fr; }
-  }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 400px) { .grid-2 { grid-template-columns: 1fr; } }
 
   .field { display: flex; flex-direction: column; gap: 6px; }
 
-  label {
-    font-size: 11px;
-    color: var(--text-muted);
-    letter-spacing: 0.5px;
-  }
+  label { font-size: 11px; color: var(--text-muted); letter-spacing: 0.5px; }
 
-  .input-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
+  .input-wrap { position: relative; display: flex; align-items: center; }
 
   .input-prefix {
-    position: absolute;
-    left: 12px;
-    font-family: 'DM Mono', monospace;
-    font-size: 13px;
-    color: var(--gold-dim);
-    pointer-events: none;
+    position: absolute; left: 12px;
+    font-family: 'DM Mono', monospace; font-size: 13px; color: var(--gold-dim); pointer-events: none;
   }
 
   input[type="number"], select {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 12px 12px 32px;
-    color: var(--text);
-    font-family: 'DM Mono', monospace;
-    font-size: 15px;
-    outline: none;
-    transition: border-color 0.2s;
-    -moz-appearance: textfield;
-    appearance: textfield;
-    -webkit-appearance: none;
+    width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 12px 12px 32px; color: var(--text);
+    font-family: 'DM Mono', monospace; font-size: 15px; outline: none;
+    transition: border-color 0.2s; -moz-appearance: textfield; appearance: textfield; -webkit-appearance: none;
   }
-
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
-
   input[type="number"]:focus, select:focus { border-color: var(--gold-dim); }
-
   select { padding-left: 12px; cursor: pointer; }
 
   .range-field { display: flex; flex-direction: column; gap: 6px; }
-
   .range-header { display: flex; justify-content: space-between; align-items: center; }
 
   input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 4px;
-    background: var(--surface2);
-    border-radius: 2px;
-    outline: none;
-    cursor: pointer;
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 4px; background: var(--surface2); border-radius: 2px; outline: none; cursor: pointer;
   }
-
   input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 22px; height: 22px;
-    background: var(--gold);
-    border-radius: 50%;
-    cursor: pointer;
+    -webkit-appearance: none; width: 22px; height: 22px;
+    background: var(--gold); border-radius: 50%; cursor: pointer;
   }
 
-  .range-val {
-    font-family: 'DM Mono', monospace;
-    font-size: 15px;
-    color: var(--gold);
-    min-width: 52px;
-    text-align: right;
-  }
+  .range-val { font-family: 'DM Mono', monospace; font-size: 15px; color: var(--gold); min-width: 52px; text-align: right; }
 
   .btn {
-    width: 100%;
-    background: linear-gradient(135deg, var(--gold-dim), var(--gold));
-    color: #0d0f14;
-    border: none;
-    border-radius: 8px;
-    padding: 16px;
-    font-family: 'Noto Serif KR', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 1px;
-    margin-top: 6px;
-    -webkit-tap-highlight-color: transparent;
+    width: 100%; background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+    color: #0d0f14; border: none; border-radius: 8px; padding: 16px;
+    font-family: 'Noto Serif KR', sans-serif; font-size: 16px; font-weight: 700;
+    cursor: pointer; letter-spacing: 1px; margin-top: 6px; -webkit-tap-highlight-color: transparent;
   }
-
   .btn:active { opacity: 0.85; }
 
   .results { display: none; }
   .results.visible { display: block; animation: fadeUp 0.4s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+  .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  @media (max-width: 400px) { .result-grid { grid-template-columns: 1fr; } }
 
-  .result-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 16px;
-  }
+  .result-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; text-align: center; }
+  .result-item.highlight { background: linear-gradient(135deg, #1a1e10, #1e2416); border-color: var(--green-dim); }
 
-  @media (max-width: 400px) {
-    .result-grid { grid-template-columns: 1fr; }
-  }
-
-  .result-item {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 12px;
-    text-align: center;
-  }
-
-  .result-item.highlight {
-    background: linear-gradient(135deg, #1a1e10, #1e2416);
-    border-color: var(--green-dim);
-  }
-
-  .result-label {
-    font-size: 10px;
-    color: var(--text-muted);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    font-family: 'DM Mono', monospace;
-    margin-bottom: 6px;
-  }
-
-  .result-val {
-    font-family: 'DM Mono', monospace;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text);
-  }
-
+  .result-label { font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; font-family: 'DM Mono', monospace; margin-bottom: 6px; }
+  .result-val { font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 500; color: var(--text); }
   .result-val.big { color: var(--green); font-size: 18px; font-weight: 700; }
 
-  .chart-wrap {
-    position: relative;
-    height: 220px;
-    margin-bottom: 8px;
-  }
-
+  .chart-wrap { position: relative; height: 220px; margin-bottom: 8px; }
   canvas { width: 100% !important; }
 
   .table-scroll {
-    max-height: 300px;
-    overflow-y: auto;
-    border-radius: 8px;
-    border: 1px solid var(--border);
+    max-height: 300px; overflow-y: auto; border-radius: 8px; border: 1px solid var(--border);
     -webkit-overflow-scrolling: touch;
   }
 
   table { width: 100%; border-collapse: collapse; font-family: 'DM Mono', monospace; font-size: 12px; }
-
   thead { position: sticky; top: 0; background: var(--surface2); z-index: 2; }
-
-  th {
-    padding: 10px 10px;
-    text-align: right;
-    color: var(--gold-dim);
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--border);
-  }
-
+  th { padding: 10px; text-align: right; color: var(--gold-dim); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
   th:first-child { text-align: left; }
-
-  td {
-    padding: 9px 10px;
-    text-align: right;
-    color: var(--text-muted);
-    border-bottom: 1px solid rgba(42,48,69,0.5);
-  }
-
+  td { padding: 9px 10px; text-align: right; color: var(--text-muted); border-bottom: 1px solid rgba(42,48,69,0.5); }
   td:first-child { text-align: left; color: var(--text); }
-
   tr:last-child td { border-bottom: none; }
   tr.year-row td { color: var(--text); background: rgba(200,169,110,0.04); }
   tr.highlight-row td { color: var(--green) !important; background: rgba(76,175,125,0.06); font-weight: 500; }
 
-  .badge {
-    display: inline-block;
-    background: var(--green-dim);
-    color: var(--green);
-    padding: 1px 6px;
-    border-radius: 4px;
-    font-size: 9px;
-    margin-left: 4px;
-    vertical-align: middle;
-  }
+  .badge { display: inline-block; background: var(--green-dim); color: var(--green); padding: 1px 6px; border-radius: 4px; font-size: 9px; margin-left: 4px; vertical-align: middle; }
 
   .toggle-table {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 9px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 12px;
-    font-family: 'DM Mono', monospace;
-    margin-top: 12px;
-    -webkit-tap-highlight-color: transparent;
+    background: none; border: 1px solid var(--border); color: var(--text-muted);
+    padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 12px;
+    font-family: 'DM Mono', monospace; margin-top: 12px; -webkit-tap-highlight-color: transparent;
   }
 
-  .info-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(42,48,69,0.5);
-    font-size: 13px;
-  }
-
+  .info-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(42,48,69,0.5); font-size: 13px; }
   .info-row:last-child { border-bottom: none; }
   .info-key { color: var(--text-muted); }
   .info-val { font-family: 'DM Mono', monospace; color: var(--text); }
@@ -341,23 +165,23 @@
 
   <header>
     <div class="eyebrow">Financial Planning Tool</div>
-    <h1>복리저축 <span>계산기</span></h1>
-    <p class="subtitle">시간이 돈을 불리는 마법 — 복리의 힘을 시각화합니다</p>
+    <h1 data-i18n-html="heading">복리저축 <span>계산기</span></h1>
+    <p class="subtitle" data-i18n="subtitle">시간이 돈을 불리는 마법 — 복리의 힘을 시각화합니다</p>
     <div class="divider"></div>
   </header>
 
   <div class="card">
-    <div class="card-title">📐 투자 조건 설정</div>
+    <div class="card-title" data-i18n="cardInputTitle">📐 투자 조건 설정</div>
     <div class="grid-2">
       <div class="field">
-        <label>초기 투자금</label>
+        <label data-i18n="labelPrincipal">초기 투자금</label>
         <div class="input-wrap">
           <span class="input-prefix">₩</span>
           <input type="number" id="principal" value="10000000" min="0" inputmode="numeric">
         </div>
       </div>
       <div class="field">
-        <label>월 추가 납입금</label>
+        <label data-i18n="labelMonthly">월 추가 납입금</label>
         <div class="input-wrap">
           <span class="input-prefix">₩</span>
           <input type="number" id="monthly" value="500000" min="0" inputmode="numeric">
@@ -369,7 +193,7 @@
 
     <div class="range-field">
       <div class="range-header">
-        <label>연 수익률</label>
+        <label data-i18n="labelRate">연 수익률</label>
         <span class="range-val" id="rateLabel">7.0%</span>
       </div>
       <input type="range" id="rate" min="0.5" max="30" step="0.5" value="7">
@@ -380,18 +204,18 @@
     <div class="grid-2">
       <div class="range-field">
         <div class="range-header">
-          <label>투자 기간</label>
+          <label data-i18n="labelYears">투자 기간</label>
           <span class="range-val" id="yearsLabel">10년</span>
         </div>
         <input type="range" id="years" min="1" max="40" step="1" value="10">
       </div>
       <div class="field">
-        <label>복리 주기</label>
+        <label data-i18n="labelFreq">복리 주기</label>
         <select id="freq">
-          <option value="1">연복리</option>
-          <option value="4">분기복리</option>
-          <option value="12" selected>월복리</option>
-          <option value="365">일복리</option>
+          <option value="1" data-i18n="freqAnnual">연복리</option>
+          <option value="4" data-i18n="freqQuarterly">분기복리</option>
+          <option value="12" selected data-i18n="freqMonthly">월복리</option>
+          <option value="365" data-i18n="freqDaily">일복리</option>
         </select>
       </div>
     </div>
@@ -400,30 +224,30 @@
 
     <div class="range-field">
       <div class="range-header">
-        <label>세금/수수료 (연)</label>
+        <label data-i18n="labelTax">세금/수수료 (연)</label>
         <span class="range-val" id="taxLabel">15.4%</span>
       </div>
       <input type="range" id="tax" min="0" max="30" step="0.1" value="15.4">
     </div>
 
     <div class="spacer"></div>
-    <button class="btn" onclick="calculate()">✦ 계산하기</button>
+    <button class="btn" onclick="calculate()" data-i18n="btnCalculate">✦ 계산하기</button>
   </div>
 
   <div class="results" id="results">
     <div class="card">
-      <div class="card-title">📊 결과 요약</div>
+      <div class="card-title" data-i18n="cardResultTitle">📊 결과 요약</div>
       <div class="result-grid">
         <div class="result-item">
-          <div class="result-label">총 투자 원금</div>
+          <div class="result-label" data-i18n="rLabelPrincipal">총 투자 원금</div>
           <div class="result-val" id="rPrincipal">—</div>
         </div>
         <div class="result-item">
-          <div class="result-label">세전 수익</div>
+          <div class="result-label" data-i18n="rLabelGain">세전 수익</div>
           <div class="result-val" id="rGain">—</div>
         </div>
         <div class="result-item highlight">
-          <div class="result-label">최종 자산 (세후)</div>
+          <div class="result-label" data-i18n="rLabelFinal">최종 자산 (세후)</div>
           <div class="result-val big" id="rFinal">—</div>
         </div>
       </div>
@@ -431,25 +255,25 @@
     </div>
 
     <div class="card">
-      <div class="card-title">📈 자산 성장 차트</div>
+      <div class="card-title" data-i18n="cardChartTitle">📈 자산 성장 차트</div>
       <div class="chart-wrap">
         <canvas id="myChart"></canvas>
       </div>
     </div>
 
     <div class="card">
-      <div class="card-title">📋 연도별 상세 내역</div>
-      <button class="toggle-table" onclick="toggleTable()">▼ 상세 펼치기</button>
+      <div class="card-title" data-i18n="cardTableTitle">📋 연도별 상세 내역</div>
+      <button class="toggle-table" id="toggleBtn" onclick="toggleTable()" data-i18n="btnExpand">▼ 상세 펼치기</button>
       <div id="tableWrap" style="display:none; margin-top:12px;">
         <div class="table-scroll">
           <table>
             <thead>
               <tr>
-                <th>연도</th>
-                <th>누적 원금</th>
-                <th>수익</th>
-                <th>세후 자산</th>
-                <th>수익률</th>
+                <th data-i18n="thYear">연도</th>
+                <th data-i18n="thPrincipal">누적 원금</th>
+                <th data-i18n="thGain">수익</th>
+                <th data-i18n="thNet">세후 자산</th>
+                <th data-i18n="thRate">수익률</th>
               </tr>
             </thead>
             <tbody id="tableBody"></tbody>
@@ -463,183 +287,261 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <script>
-  document.getElementById('rate').oninput = function() {
-    document.getElementById('rateLabel').textContent = parseFloat(this.value).toFixed(1) + '%';
-  };
-  document.getElementById('years').oninput = function() {
-    document.getElementById('yearsLabel').textContent = this.value + '년';
-  };
-  document.getElementById('tax').oninput = function() {
-    document.getElementById('taxLabel').textContent = parseFloat(this.value).toFixed(1) + '%';
-  };
+// ── i18n ───────────────────────────────────────────────────────────────────
+const i18n = {
+  ko: {
+    heading: '복리저축 <span>계산기</span>',
+    subtitle: '시간이 돈을 불리는 마법 — 복리의 힘을 시각화합니다',
+    cardInputTitle: '📐 투자 조건 설정',
+    labelPrincipal: '초기 투자금', labelMonthly: '월 추가 납입금',
+    labelRate: '연 수익률', labelYears: '투자 기간',
+    labelFreq: '복리 주기', labelTax: '세금/수수료 (연)',
+    freqAnnual: '연복리', freqQuarterly: '분기복리', freqMonthly: '월복리', freqDaily: '일복리',
+    btnCalculate: '✦ 계산하기',
+    cardResultTitle: '📊 결과 요약',
+    rLabelPrincipal: '총 투자 원금', rLabelGain: '세전 수익', rLabelFinal: '최종 자산 (세후)',
+    cardChartTitle: '📈 자산 성장 차트',
+    cardTableTitle: '📋 연도별 상세 내역',
+    btnExpand: '▼ 상세 펼치기', btnCollapse: '▲ 접기',
+    thYear: '연도', thPrincipal: '누적 원금', thGain: '수익', thNet: '세후 자산', thRate: '수익률',
+    infoMultiple: '자산 증가 배수', infoCAGR: '실질 CAGR (세후)',
+    infoTax: '총 세금/수수료 추정', infoMonthly: '월 납입 총액',
+    chartNet: '세후 자산', chartPrincipal: '투자 원금',
+    yearUnit: '년', nthUnit: '년차', tagGoal: '목표',
+    yearRow: (cy, n) => `${cy}년 (${n}년차)`,
+    won: '원', man: '만', uk: '억',
+  },
+  en: {
+    heading: 'Compound <span>Calculator</span>',
+    subtitle: 'Visualize the power of compound interest — watch your money grow over time',
+    cardInputTitle: '📐 Investment Settings',
+    labelPrincipal: 'Initial Investment', labelMonthly: 'Monthly Contribution',
+    labelRate: 'Annual Return Rate', labelYears: 'Investment Period',
+    labelFreq: 'Compounding Frequency', labelTax: 'Tax / Fee Rate (Annual)',
+    freqAnnual: 'Annually', freqQuarterly: 'Quarterly', freqMonthly: 'Monthly', freqDaily: 'Daily',
+    btnCalculate: '✦ Calculate',
+    cardResultTitle: '📊 Summary',
+    rLabelPrincipal: 'Total Principal', rLabelGain: 'Pre-tax Gains', rLabelFinal: 'Final Assets (After Tax)',
+    cardChartTitle: '📈 Growth Chart',
+    cardTableTitle: '📋 Year-by-Year Detail',
+    btnExpand: '▼ Show Detail', btnCollapse: '▲ Collapse',
+    thYear: 'Year', thPrincipal: 'Cumul. Principal', thGain: 'Gains', thNet: 'After-Tax', thRate: 'Return',
+    infoMultiple: 'Asset Growth Multiple', infoCAGR: 'Effective CAGR (After Tax)',
+    infoTax: 'Est. Total Tax / Fee', infoMonthly: 'Total Monthly Contributions',
+    chartNet: 'After-Tax Assets', chartPrincipal: 'Principal',
+    yearUnit: ' yr', nthUnit: 'yr', tagGoal: 'Target',
+    yearRow: (cy, n) => `${cy} (yr ${n})`,
+    won: '', man: '만', uk: '억',
+  },
+  ja: {
+    heading: '複利貯蓄 <span>計算機</span>',
+    subtitle: '複利の魔法 — 時間とともに資産が増える力を可視化します',
+    cardInputTitle: '📐 投資条件の設定',
+    labelPrincipal: '初期投資額', labelMonthly: '月次積立金',
+    labelRate: '年間利回り', labelYears: '投資期間',
+    labelFreq: '複利計算頻度', labelTax: '税金・手数料（年率）',
+    freqAnnual: '年複利', freqQuarterly: '四半期複利', freqMonthly: '月複利', freqDaily: '日複利',
+    btnCalculate: '✦ 計算する',
+    cardResultTitle: '📊 結果サマリー',
+    rLabelPrincipal: '総投資元本', rLabelGain: '税引前利益', rLabelFinal: '最終資産（税引後）',
+    cardChartTitle: '📈 資産成長チャート',
+    cardTableTitle: '📋 年別詳細',
+    btnExpand: '▼ 詳細を表示', btnCollapse: '▲ 閉じる',
+    thYear: '年度', thPrincipal: '累計元本', thGain: '利益', thNet: '税引後資産', thRate: '収益率',
+    infoMultiple: '資産増加倍率', infoCAGR: '実質CAGR（税引後）',
+    infoTax: '税金・手数料（推計）', infoMonthly: '積立総額',
+    chartNet: '税引後資産', chartPrincipal: '投資元本',
+    yearUnit: '年', nthUnit: '年目', tagGoal: '目標',
+    yearRow: (cy, n) => `${cy}年（${n}年目）`,
+    won: '相当', man: '万', uk: '億',
+  },
+};
 
-  function fmt(n) {
-    if (n >= 1e8) return (n / 1e8).toFixed(2) + '억';
-    if (n >= 1e4) return (n / 1e4).toFixed(0) + '만';
-    return n.toFixed(0);
+let currentLang = 'ko';
+
+// ── 언어 적용 ───────────────────────────────────────────────────────────────
+function setLanguage(lang) {
+  if (!i18n[lang]) return;
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  applyTranslations();
+  if (document.getElementById('results').classList.contains('visible')) calculate();
+}
+
+function applyTranslations() {
+  const t = i18n[currentLang];
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (t[k] !== undefined) el.textContent = t[k];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const k = el.getAttribute('data-i18n-html');
+    if (t[k] !== undefined) el.innerHTML = t[k];
+  });
+
+  // 슬라이더 레이블 업데이트
+  document.getElementById('yearsLabel').textContent =
+    document.getElementById('years').value + t.yearUnit;
+  document.getElementById('rateLabel').textContent =
+    parseFloat(document.getElementById('rate').value).toFixed(1) + '%';
+  document.getElementById('taxLabel').textContent =
+    parseFloat(document.getElementById('tax').value).toFixed(1) + '%';
+
+  // 토글 버튼 상태 유지
+  const wrap = document.getElementById('tableWrap');
+  document.getElementById('toggleBtn').textContent =
+    wrap.style.display === 'none' ? t.btnExpand : t.btnCollapse;
+}
+
+// ── 숫자 포맷 ───────────────────────────────────────────────────────────────
+function fmtFull(n) {
+  const t = i18n[currentLang];
+  if (Math.abs(n) >= 1e8) {
+    const uk = Math.floor(Math.abs(n) / 1e8);
+    const man = Math.round((Math.abs(n) % 1e8) / 1e4);
+    return (n < 0 ? '-' : '') + uk + t.uk + (man > 0 ? ' ' + man + t.man : '') + t.won;
+  }
+  return Math.round(n / 1e4) + t.man + t.won;
+}
+
+function fmtShort(n) {
+  const t = i18n[currentLang];
+  if (Math.abs(n) >= 1e8) return (n / 1e8).toFixed(2) + t.uk;
+  if (Math.abs(n) >= 1e4) return (n / 1e4).toFixed(0) + t.man;
+  return n.toFixed(0);
+}
+
+// ── 슬라이더 이벤트 ─────────────────────────────────────────────────────────
+document.getElementById('rate').oninput = function () {
+  document.getElementById('rateLabel').textContent = parseFloat(this.value).toFixed(1) + '%';
+};
+document.getElementById('years').oninput = function () {
+  document.getElementById('yearsLabel').textContent = this.value + i18n[currentLang].yearUnit;
+};
+document.getElementById('tax').oninput = function () {
+  document.getElementById('taxLabel').textContent = parseFloat(this.value).toFixed(1) + '%';
+};
+
+// ── 계산 ────────────────────────────────────────────────────────────────────
+let chartInstance = null;
+
+function calculate() {
+  const t = i18n[currentLang];
+  const P = parseFloat(document.getElementById('principal').value) || 0;
+  const monthly = parseFloat(document.getElementById('monthly').value) || 0;
+  const r = parseFloat(document.getElementById('rate').value) / 100;
+  const years = parseInt(document.getElementById('years').value);
+  const n = parseInt(document.getElementById('freq').value);
+  const taxRate = parseFloat(document.getElementById('tax').value) / 100;
+
+  const labels = [], principalData = [], grossData = [], netData = [], tableRows = [];
+  let gross = P;
+  const rPerPeriod = r / n;
+
+  for (let y = 1; y <= years; y++) {
+    for (let p = 0; p < n; p++) {
+      gross = gross * (1 + rPerPeriod) + (monthly * 12 / n);
+    }
+    const totalPrincipal = P + monthly * 12 * y;
+    const gain = gross - totalPrincipal;
+    const taxAmount = gain > 0 ? gain * taxRate : 0;
+    const net = gross - taxAmount;
+
+    labels.push(y + t.yearUnit);
+    principalData.push(totalPrincipal);
+    grossData.push(Math.round(gross));
+    netData.push(Math.round(net));
+    tableRows.push({ y, totalPrincipal, gross, gain, net });
   }
 
-  function fmtFull(n) {
-    if (n >= 1e8) {
-      const uk = Math.floor(n / 1e8);
-      const man = Math.round((n % 1e8) / 1e4);
-      return uk + '억 ' + (man > 0 ? man + '만' : '');
-    }
-    return Math.round(n / 1e4) + '만';
-  }
+  const finalNet = netData[netData.length - 1];
+  const finalPrincipal = principalData[principalData.length - 1];
+  const finalGain = grossData[grossData.length - 1] - finalPrincipal;
+  const currentYear = new Date().getFullYear();
 
-  let chartInstance = null;
+  document.getElementById('rPrincipal').textContent = fmtFull(finalPrincipal);
+  document.getElementById('rGain').textContent = fmtFull(finalGain);
+  document.getElementById('rFinal').textContent = fmtFull(finalNet);
 
-  function calculate() {
-    const P = parseFloat(document.getElementById('principal').value) || 0;
-    const monthly = parseFloat(document.getElementById('monthly').value) || 0;
-    const r = parseFloat(document.getElementById('rate').value) / 100;
-    const years = parseInt(document.getElementById('years').value);
-    const n = parseInt(document.getElementById('freq').value);
-    const taxRate = parseFloat(document.getElementById('tax').value) / 100;
+  const mul = finalNet / finalPrincipal;
+  document.getElementById('extraInfo').innerHTML = `
+    <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border);">
+      <div class="info-row"><span class="info-key">${t.infoMultiple}</span><span class="info-val accent">${mul.toFixed(2)}x</span></div>
+      <div class="info-row"><span class="info-key">${t.infoCAGR}</span><span class="info-val">${((Math.pow(finalNet/finalPrincipal,1/years)-1)*100).toFixed(2)}%</span></div>
+      <div class="info-row"><span class="info-key">${t.infoTax}</span><span class="info-val">${fmtFull(grossData[grossData.length-1] - finalNet)}</span></div>
+      <div class="info-row"><span class="info-key">${t.infoMonthly}</span><span class="info-val">${fmtFull(monthly * 12 * years)}</span></div>
+    </div>
+  `;
 
-    const labels = [];
-    const principalData = [];
-    const grossData = [];
-    const netData = [];
-    const tableRows = [];
-
-    let gross = P;
-    const rPerPeriod = r / n;
-    const periodsPerYear = n;
-
-    for (let y = 1; y <= years; y++) {
-      for (let p = 0; p < periodsPerYear; p++) {
-        gross = gross * (1 + rPerPeriod) + (monthly * 12 / periodsPerYear);
-      }
-      const totalPrincipal = P + monthly * 12 * y;
-      const gain = gross - totalPrincipal;
-      const taxAmount = gain > 0 ? gain * taxRate : 0;
-      const net = gross - taxAmount;
-
-      labels.push(y + '년');
-      principalData.push(totalPrincipal);
-      grossData.push(Math.round(gross));
-      netData.push(Math.round(net));
-      tableRows.push({ y, totalPrincipal, gross, gain, net, taxAmount });
-    }
-
-    const finalNet = netData[netData.length - 1];
-    const finalPrincipal = principalData[principalData.length - 1];
-    const finalGain = grossData[grossData.length - 1] - finalPrincipal;
-    const currentYear = new Date().getFullYear();
-
-    document.getElementById('rPrincipal').textContent = fmtFull(finalPrincipal) + '원';
-    document.getElementById('rGain').textContent = fmtFull(finalGain) + '원';
-    document.getElementById('rFinal').textContent = fmtFull(finalNet) + '원';
-
-    const mul = finalNet / finalPrincipal;
-    document.getElementById('extraInfo').innerHTML = `
-      <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border);">
-        <div class="info-row"><span class="info-key">자산 증가 배수</span><span class="info-val accent">${mul.toFixed(2)}배</span></div>
-        <div class="info-row"><span class="info-key">실질 CAGR (세후)</span><span class="info-val">${((Math.pow(finalNet/finalPrincipal,1/years)-1)*100).toFixed(2)}%</span></div>
-        <div class="info-row"><span class="info-key">총 세금/수수료 추정</span><span class="info-val">${fmtFull(grossData[grossData.length-1] - finalNet)}원</span></div>
-        <div class="info-row"><span class="info-key">월 납입 총액</span><span class="info-val">${fmtFull(monthly * 12 * years)}원</span></div>
-      </div>
-    `;
-
-    if (chartInstance) chartInstance.destroy();
-    const ctx = document.getElementById('myChart').getContext('2d');
-    chartInstance = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels,
-        datasets: [
-          {
-            label: '세후 자산',
-            data: netData,
-            borderColor: '#4caf7d',
-            backgroundColor: 'rgba(76,175,125,0.08)',
-            fill: true,
-            tension: 0.4,
-            pointRadius: years > 20 ? 0 : 3,
-            borderWidth: 2,
-          },
-          {
-            label: '투자 원금',
-            data: principalData,
-            borderColor: '#c8a96e',
-            backgroundColor: 'rgba(200,169,110,0.05)',
-            fill: true,
-            tension: 0.4,
-            pointRadius: 0,
-            borderWidth: 1.5,
-            borderDash: [4, 3],
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
-        plugins: {
-          legend: {
-            labels: { color: '#8a8a9a', font: { family: 'DM Mono', size: 10 }, boxWidth: 10 }
-          },
-          tooltip: {
-            backgroundColor: '#161923',
-            borderColor: '#2a3045',
-            borderWidth: 1,
-            titleColor: '#c8a96e',
-            bodyColor: '#e8e4dc',
-            callbacks: {
-              label: ctx => ' ' + ctx.dataset.label + ': ' + fmtFull(ctx.raw) + '원'
-            }
-          }
+  // 차트
+  if (chartInstance) chartInstance.destroy();
+  const ctx = document.getElementById('myChart').getContext('2d');
+  chartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: t.chartNet, data: netData,
+          borderColor: '#4caf7d', backgroundColor: 'rgba(76,175,125,0.08)',
+          fill: true, tension: 0.4, pointRadius: years > 20 ? 0 : 3, borderWidth: 2,
         },
-        scales: {
-          x: { ticks: { color: '#8a8a9a', font: { family: 'DM Mono', size: 10 }, maxTicksLimit: 10 }, grid: { color: '#1e2330' } },
-          y: {
-            ticks: {
-              color: '#8a8a9a',
-              font: { family: 'DM Mono', size: 10 },
-              callback: v => fmtFull(v)
-            },
-            grid: { color: '#1e2330' }
-          }
+        {
+          label: t.chartPrincipal, data: principalData,
+          borderColor: '#c8a96e', backgroundColor: 'rgba(200,169,110,0.05)',
+          fill: true, tension: 0.4, pointRadius: 0, borderWidth: 1.5, borderDash: [4, 3],
         }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { labels: { color: '#8a8a9a', font: { family: 'DM Mono', size: 10 }, boxWidth: 10 } },
+        tooltip: {
+          backgroundColor: '#161923', borderColor: '#2a3045', borderWidth: 1,
+          titleColor: '#c8a96e', bodyColor: '#e8e4dc',
+          callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + fmtFull(ctx.raw) }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#8a8a9a', font: { family: 'DM Mono', size: 10 }, maxTicksLimit: 10 }, grid: { color: '#1e2330' } },
+        y: { ticks: { color: '#8a8a9a', font: { family: 'DM Mono', size: 10 }, callback: v => fmtShort(v) }, grid: { color: '#1e2330' } }
       }
-    });
-
-    const tbody = document.getElementById('tableBody');
-    tbody.innerHTML = '';
-    tableRows.forEach((row, idx) => {
-      const tr = document.createElement('tr');
-      const calYear = currentYear + row.y;
-      const isRetire = row.y === years;
-      tr.className = isRetire ? 'highlight-row' : 'year-row';
-      tr.innerHTML = `
-        <td>${calYear}년 (${row.y}년차)${isRetire ? '<span class="badge">목표</span>' : ''}</td>
-        <td>${fmtFull(row.totalPrincipal)}원</td>
-        <td>${fmtFull(row.gain > 0 ? row.gain : 0)}원</td>
-        <td>${fmtFull(row.net)}원</td>
-        <td>${((row.net / row.totalPrincipal - 1)*100).toFixed(1)}%</td>
-      `;
-      tbody.appendChild(tr);
-    });
-
-    document.getElementById('results').classList.add('visible');
-    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function toggleTable() {
-    const wrap = document.getElementById('tableWrap');
-    const btn = document.querySelector('.toggle-table');
-    if (wrap.style.display === 'none') {
-      wrap.style.display = 'block';
-      btn.textContent = '▲ 접기';
-    } else {
-      wrap.style.display = 'none';
-      btn.textContent = '▼ 상세 펼치기';
     }
-  }
+  });
 
-  calculate();
+  // 테이블
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
+  tableRows.forEach(row => {
+    const tr = document.createElement('tr');
+    const isTarget = row.y === years;
+    tr.className = isTarget ? 'highlight-row' : 'year-row';
+    tr.innerHTML = `
+      <td>${t.yearRow(currentYear + row.y, row.y)}${isTarget ? `<span class="badge">${t.tagGoal}</span>` : ''}</td>
+      <td>${fmtFull(row.totalPrincipal)}</td>
+      <td>${fmtFull(row.gain > 0 ? row.gain : 0)}</td>
+      <td>${fmtFull(row.net)}</td>
+      <td>${((row.net / row.totalPrincipal - 1) * 100).toFixed(1)}%</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('results').classList.add('visible');
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function toggleTable() {
+  const wrap = document.getElementById('tableWrap');
+  const t = i18n[currentLang];
+  const open = wrap.style.display === 'none';
+  wrap.style.display = open ? 'block' : 'none';
+  document.getElementById('toggleBtn').textContent = open ? t.btnCollapse : t.btnExpand;
+}
+
+calculate();
 </script>
 </body>
 </html>

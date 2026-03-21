@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-03-21
+
+### Added
+- 다국어 지원: 한국어 · English · 日本語 (앱 상단 언어 버튼으로 전환)
+- `LanguageManager`: SharedPreferences 기반 언어 설정 영속화
+- HTML i18n: `data-i18n` / `data-i18n-html` 속성 + `setLanguage()` JS API
+- Android resource 번역: `values-en/strings.xml`, `values-ja/strings.xml`
+- 상단 앱 바 (앱 이름 + 언어 선택 버튼 KO/EN/JA)
+
 ## [1.0.0] - 2026-03-20
 
 ### Added
