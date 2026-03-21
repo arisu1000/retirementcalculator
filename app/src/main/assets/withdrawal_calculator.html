@@ -170,20 +170,17 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
   </div>
 
   <div id="mode-fixed">
-    <div class="grid-2" style="margin-bottom:16px;">
-      <div class="field">
-        <label data-i18n="labelMonthly">월 인출액</label>
-        <div class="input-wrap"><span class="pfx" data-currency>₩</span><input type="number" id="monthly" value="3000000" inputmode="numeric"></div>
+    <div class="field" style="margin-bottom:16px;">
+      <label data-i18n="labelMonthly">월 인출액</label>
+      <div class="input-wrap"><span class="pfx" data-currency>₩</span><input type="number" id="monthly" value="3000000" inputmode="numeric"></div>
+    </div>
+    <div class="range-block" style="margin-bottom:16px;">
+      <div class="range-header">
+        <span class="range-label" data-i18n="labelInflation">물가상승률 반영</span>
+        <span class="range-val" id="inflLabel">2.0%</span>
       </div>
-      <div class="field">
-        <label data-i18n="labelInflation">물가상승률 반영</label>
-        <select id="inflation">
-          <option value="0" data-i18n="inflNone">반영 안함</option>
-          <option value="2" selected data-i18n="infl2">2% (보통)</option>
-          <option value="3" data-i18n="infl3">3% (높음)</option>
-          <option value="3.5" data-i18n="infl35">3.5%</option>
-        </select>
-      </div>
+      <input type="range" id="inflation" min="0" max="10" step="0.1" value="2"
+        oninput="document.getElementById('inflLabel').textContent=parseFloat(this.value).toFixed(1)+'%'">
     </div>
   </div>
 
@@ -276,8 +273,7 @@ const i18n = {
     tabRate: '정률 인출', tabRateSub: '잔액의 N% 매년',
     tabSwr: 'SWR 분석', tabSwrSub: '안전 인출률 찾기',
     labelNest: '은퇴 시작 자산', labelStartYear: '은퇴 시작 연도',
-    labelMonthly: '월 인출액', labelInflation: '물가상승률 반영',
-    inflNone: '반영 안함', infl2: '2% (보통)', infl3: '3% (높음)', infl35: '3.5%',
+    labelMonthly: '월 인출액', labelInflation: '물가상승률 (연)',
     labelWRate: '연간 인출률', labelSwrYears: '자산 유지 목표 기간',
     labelRetRate: '포트폴리오 연평균 수익률', labelLifespan: '예측 기간 (기대 수명 기준)',
     unitYear: '년', btnCalculate: '✦ 계산하기',
@@ -323,8 +319,7 @@ const i18n = {
     tabRate: 'Fixed Rate', tabRateSub: 'N% of balance yearly',
     tabSwr: 'SWR Analysis', tabSwrSub: 'Find safe rate',
     labelNest: 'Retirement Nest Egg', labelStartYear: 'Retirement Start Year',
-    labelMonthly: 'Monthly Withdrawal', labelInflation: 'Inflation Adjustment',
-    inflNone: 'None', infl2: '2% (moderate)', infl3: '3% (high)', infl35: '3.5%',
+    labelMonthly: 'Monthly Withdrawal', labelInflation: 'Inflation Rate (Annual)',
     labelWRate: 'Annual Withdrawal Rate', labelSwrYears: 'Target Sustainability Period',
     labelRetRate: 'Portfolio Annual Return', labelLifespan: 'Forecast Period (Life Expectancy)',
     unitYear: 'yr', btnCalculate: '✦ Calculate',
@@ -370,8 +365,7 @@ const i18n = {
     tabRate: '定率引出', tabRateSub: '残高のN%を毎年',
     tabSwr: 'SWR分析', tabSwrSub: '安全引出率を算出',
     labelNest: '退職時の資産', labelStartYear: '退職開始年',
-    labelMonthly: '月次引き出し額', labelInflation: 'インフレ反映',
-    inflNone: '反映なし', infl2: '2%（普通）', infl3: '3%（高め）', infl35: '3.5%',
+    labelMonthly: '月次引き出し額', labelInflation: 'インフレ率（年率）',
     labelWRate: '年間引き出し率', labelSwrYears: '資産維持目標期間',
     labelRetRate: 'ポートフォリオ年平均収益率', labelLifespan: '予測期間（平均余命ベース）',
     unitYear: '年', btnCalculate: '✦ 計算する',
