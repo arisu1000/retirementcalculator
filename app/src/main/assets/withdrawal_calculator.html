@@ -161,7 +161,7 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
   <div class="grid-2" style="margin-bottom:16px;">
     <div class="field">
       <label data-i18n="labelNest">은퇴 시작 자산</label>
-      <div class="input-wrap"><span class="pfx">₩</span><input type="number" id="nest" value="500000000" inputmode="numeric"></div>
+      <div class="input-wrap"><span class="pfx" data-currency>₩</span><input type="number" id="nest" value="500000000" inputmode="numeric"></div>
     </div>
     <div class="field">
       <label data-i18n="labelStartYear">은퇴 시작 연도</label>
@@ -173,7 +173,7 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
     <div class="grid-2" style="margin-bottom:16px;">
       <div class="field">
         <label data-i18n="labelMonthly">월 인출액</label>
-        <div class="input-wrap"><span class="pfx">₩</span><input type="number" id="monthly" value="3000000" inputmode="numeric"></div>
+        <div class="input-wrap"><span class="pfx" data-currency>₩</span><input type="number" id="monthly" value="3000000" inputmode="numeric"></div>
       </div>
       <div class="field">
         <label data-i18n="labelInflation">물가상승률 반영</label>
@@ -299,7 +299,21 @@ const i18n = {
     chartBalance: '자산 잔액', chartWithdraw: '연간 인출액',
     yearRow: (cy, n) => `${cy}년 (${n}년차)`,
     scLabels: ['보수적 (SWR-1%)', '안전 인출률', '적극적 (SWR+1%)'],
-    won: '원', man: '만', uk: '억',
+    currencySymbol: '₩',
+    fmt: (n) => {
+      const abs = Math.abs(n), s = n < 0 ? '-' : '';
+      if (abs >= 1e8) {
+        const uk = Math.floor(abs / 1e8), man = Math.round((abs % 1e8) / 1e4);
+        return s + uk + '억' + (man > 0 ? ' ' + man + '만' : '') + '원';
+      }
+      return s + Math.round(abs / 1e4) + '만원';
+    },
+    fmtShort: (n) => {
+      const abs = Math.abs(n);
+      if (abs >= 1e8) return (n / 1e8).toFixed(2) + '억';
+      if (abs >= 1e4) return (n / 1e4).toFixed(0) + '만';
+      return n.toFixed(0);
+    },
   },
   en: {
     heading: 'Retirement <em>Withdrawal</em> Calculator',
@@ -332,7 +346,21 @@ const i18n = {
     chartBalance: 'Asset Balance', chartWithdraw: 'Annual Withdrawal',
     yearRow: (cy, n) => `${cy} (yr ${n})`,
     scLabels: ['Conservative (SWR-1%)', 'Safe Withdrawal Rate', 'Aggressive (SWR+1%)'],
-    won: '', man: '만', uk: '억',
+    currencySymbol: '$',
+    fmt: (n) => {
+      const abs = Math.abs(n), s = n < 0 ? '-' : '';
+      if (abs >= 1e9) return s + '$' + (abs / 1e9).toFixed(2) + 'B';
+      if (abs >= 1e6) return s + '$' + (abs / 1e6).toFixed(2) + 'M';
+      if (abs >= 1e3) return s + '$' + (abs / 1e3).toFixed(1) + 'K';
+      return s + '$' + Math.round(abs).toLocaleString();
+    },
+    fmtShort: (n) => {
+      const abs = Math.abs(n);
+      if (abs >= 1e9) return '$' + (n / 1e9).toFixed(1) + 'B';
+      if (abs >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
+      if (abs >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+      return '$' + Math.round(n);
+    },
   },
   ja: {
     heading: '退職後 <em>引き出し</em> 計算機',
@@ -365,7 +393,21 @@ const i18n = {
     chartBalance: '資産残高', chartWithdraw: '年間引出額',
     yearRow: (cy, n) => `${cy}年（${n}年目）`,
     scLabels: ['保守的（SWR-1%）', '安全引出率', '積極的（SWR+1%）'],
-    won: '相当', man: '万', uk: '億',
+    currencySymbol: '¥',
+    fmt: (n) => {
+      const abs = Math.abs(n), s = n < 0 ? '-' : '';
+      if (abs >= 1e8) {
+        const uk = Math.floor(abs / 1e8), man = Math.round((abs % 1e8) / 1e4);
+        return s + '¥' + uk + '億' + (man > 0 ? man + '万' : '') + '円';
+      }
+      return s + '¥' + Math.round(abs / 1e4) + '万円';
+    },
+    fmtShort: (n) => {
+      const abs = Math.abs(n);
+      if (abs >= 1e8) return '¥' + (n / 1e8).toFixed(2) + '億';
+      if (abs >= 1e4) return '¥' + (n / 1e4).toFixed(0) + '万';
+      return '¥' + n.toFixed(0);
+    },
   },
 };
 
@@ -394,6 +436,11 @@ function applyTranslations() {
   });
   updateLifeLabel(document.getElementById('lifespan').value);
 
+  // 통화 기호 업데이트
+  document.querySelectorAll('[data-currency]').forEach(el => {
+    el.textContent = t.currencySymbol;
+  });
+
   const tw = document.getElementById('tableWrap');
   document.getElementById('tableToggleBtn').textContent =
     tw.style.display === 'none' ? t.btnTableExpand : t.btnTableCollapse;
@@ -404,24 +451,10 @@ function updateLifeLabel(val) {
   document.getElementById('lifeLabel').textContent = val + t.unitYear;
 }
 
-// ── 숫자 포맷 ───────────────────────────────────────────────────────────────
-function fmtFull(n) {
-  const t = i18n[currentLang];
-  if (Math.abs(n) >= 1e8) {
-    const uk = Math.floor(Math.abs(n) / 1e8);
-    const man = Math.round((Math.abs(n) % 1e8) / 1e4);
-    return (n < 0 ? '-' : '') + uk + t.uk + (man > 0 ? ' ' + man + t.man : '') + t.won;
-  }
-  return Math.round(n / 1e4) + t.man + t.won;
-}
+// ── 숫자 포맷 (언어별 함수에 위임) ─────────────────────────────────────────
+function fmtFull(n) { return i18n[currentLang].fmt(n); }
 
-function fmtShort(n) {
-  const t = i18n[currentLang];
-  const abs = Math.abs(n);
-  if (abs >= 1e8) return (n / 1e8).toFixed(2) + t.uk;
-  if (abs >= 1e4) return Math.round(n / 1e4) + t.man;
-  return Math.round(n).toLocaleString();
-}
+function fmtShort(n) { return i18n[currentLang].fmtShort(n); }
 
 // ── 모드 전환 ───────────────────────────────────────────────────────────────
 function setMode(m) {

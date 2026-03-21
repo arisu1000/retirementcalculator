@@ -176,14 +176,14 @@
       <div class="field">
         <label data-i18n="labelPrincipal">초기 투자금</label>
         <div class="input-wrap">
-          <span class="input-prefix">₩</span>
+          <span class="input-prefix" data-currency>₩</span>
           <input type="number" id="principal" value="10000000" min="0" inputmode="numeric">
         </div>
       </div>
       <div class="field">
         <label data-i18n="labelMonthly">월 추가 납입금</label>
         <div class="input-wrap">
-          <span class="input-prefix">₩</span>
+          <span class="input-prefix" data-currency>₩</span>
           <input type="number" id="monthly" value="500000" min="0" inputmode="numeric">
         </div>
       </div>
@@ -309,7 +309,21 @@ const i18n = {
     chartNet: '세후 자산', chartPrincipal: '투자 원금',
     yearUnit: '년', nthUnit: '년차', tagGoal: '목표',
     yearRow: (cy, n) => `${cy}년 (${n}년차)`,
-    won: '원', man: '만', uk: '억',
+    currencySymbol: '₩',
+    fmt: (n) => {
+      const abs = Math.abs(n), s = n < 0 ? '-' : '';
+      if (abs >= 1e8) {
+        const uk = Math.floor(abs / 1e8), man = Math.round((abs % 1e8) / 1e4);
+        return s + uk + '억' + (man > 0 ? ' ' + man + '만' : '') + '원';
+      }
+      return s + Math.round(abs / 1e4) + '만원';
+    },
+    fmtShort: (n) => {
+      const abs = Math.abs(n);
+      if (abs >= 1e8) return (n / 1e8).toFixed(2) + '억';
+      if (abs >= 1e4) return (n / 1e4).toFixed(0) + '만';
+      return n.toFixed(0);
+    },
   },
   en: {
     heading: 'Compound <span>Calculator</span>',
@@ -331,7 +345,21 @@ const i18n = {
     chartNet: 'After-Tax Assets', chartPrincipal: 'Principal',
     yearUnit: ' yr', nthUnit: 'yr', tagGoal: 'Target',
     yearRow: (cy, n) => `${cy} (yr ${n})`,
-    won: '', man: '만', uk: '억',
+    currencySymbol: '$',
+    fmt: (n) => {
+      const abs = Math.abs(n), s = n < 0 ? '-' : '';
+      if (abs >= 1e9) return s + '$' + (abs / 1e9).toFixed(2) + 'B';
+      if (abs >= 1e6) return s + '$' + (abs / 1e6).toFixed(2) + 'M';
+      if (abs >= 1e3) return s + '$' + (abs / 1e3).toFixed(1) + 'K';
+      return s + '$' + Math.round(abs).toLocaleString();
+    },
+    fmtShort: (n) => {
+      const abs = Math.abs(n);
+      if (abs >= 1e9) return '$' + (n / 1e9).toFixed(1) + 'B';
+      if (abs >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
+      if (abs >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+      return '$' + Math.round(n);
+    },
   },
   ja: {
     heading: '複利貯蓄 <span>計算機</span>',
@@ -353,7 +381,21 @@ const i18n = {
     chartNet: '税引後資産', chartPrincipal: '投資元本',
     yearUnit: '年', nthUnit: '年目', tagGoal: '目標',
     yearRow: (cy, n) => `${cy}年（${n}年目）`,
-    won: '相当', man: '万', uk: '億',
+    currencySymbol: '¥',
+    fmt: (n) => {
+      const abs = Math.abs(n), s = n < 0 ? '-' : '';
+      if (abs >= 1e8) {
+        const uk = Math.floor(abs / 1e8), man = Math.round((abs % 1e8) / 1e4);
+        return s + '¥' + uk + '億' + (man > 0 ? man + '万' : '') + '円';
+      }
+      return s + '¥' + Math.round(abs / 1e4) + '万円';
+    },
+    fmtShort: (n) => {
+      const abs = Math.abs(n);
+      if (abs >= 1e8) return '¥' + (n / 1e8).toFixed(2) + '億';
+      if (abs >= 1e4) return '¥' + (n / 1e4).toFixed(0) + '万';
+      return '¥' + n.toFixed(0);
+    },
   },
 };
 
@@ -388,29 +430,20 @@ function applyTranslations() {
   document.getElementById('taxLabel').textContent =
     parseFloat(document.getElementById('tax').value).toFixed(1) + '%';
 
+  // 통화 기호 업데이트
+  document.querySelectorAll('[data-currency]').forEach(el => {
+    el.textContent = t.currencySymbol;
+  });
+
   // 토글 버튼 상태 유지
   const wrap = document.getElementById('tableWrap');
   document.getElementById('toggleBtn').textContent =
     wrap.style.display === 'none' ? t.btnExpand : t.btnCollapse;
 }
 
-// ── 숫자 포맷 ───────────────────────────────────────────────────────────────
-function fmtFull(n) {
-  const t = i18n[currentLang];
-  if (Math.abs(n) >= 1e8) {
-    const uk = Math.floor(Math.abs(n) / 1e8);
-    const man = Math.round((Math.abs(n) % 1e8) / 1e4);
-    return (n < 0 ? '-' : '') + uk + t.uk + (man > 0 ? ' ' + man + t.man : '') + t.won;
-  }
-  return Math.round(n / 1e4) + t.man + t.won;
-}
-
-function fmtShort(n) {
-  const t = i18n[currentLang];
-  if (Math.abs(n) >= 1e8) return (n / 1e8).toFixed(2) + t.uk;
-  if (Math.abs(n) >= 1e4) return (n / 1e4).toFixed(0) + t.man;
-  return n.toFixed(0);
-}
+// ── 숫자 포맷 (언어별 함수에 위임) ─────────────────────────────────────────
+function fmtFull(n) { return i18n[currentLang].fmt(n); }
+function fmtShort(n) { return i18n[currentLang].fmtShort(n); }
 
 // ── 슬라이더 이벤트 ─────────────────────────────────────────────────────────
 document.getElementById('rate').oninput = function () {
