@@ -13,5 +13,5 @@ else
 fi
 
 # Use the pre-downloaded gradle
-GRADLE_HOME="/Users/wcjung/.gradle/wrapper/dists/gradle-8.2-bin/bbg7u40eoinfdyxsxr3z4i7ta/gradle-8.2"
+GRADLE_HOME="/Users/wcjung/.gradle/wrapper/dists/gradle-9.3.1-bin/23ovyewtku6u96viwx3xl3oks/gradle-9.3.1"
 exec "$GRADLE_HOME/bin/gradle" "$@"

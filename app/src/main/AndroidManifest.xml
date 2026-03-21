@@ -12,6 +12,10 @@
         android:theme="@style/Theme.RetirementCalculator"
         android:usesCleartextTraffic="false">
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-0294073487593637~4749891340" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
