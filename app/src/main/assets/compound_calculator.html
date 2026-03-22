@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>복리저축 계산기</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0d0f14;
@@ -26,7 +25,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'Noto Serif KR', 'Apple SD Gothic Neo', sans-serif;
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
     min-height: 100vh;
     padding: 20px 14px 80px;
     -webkit-text-size-adjust: 100%;
@@ -37,7 +36,7 @@
   header { text-align: center; margin-bottom: 28px; }
 
   .eyebrow {
-    font-family: 'DM Mono', monospace;
+    font-family: monospace;
     font-size: 10px;
     letter-spacing: 3px;
     color: var(--gold-dim);
@@ -60,7 +59,7 @@
 
   .card-title {
     font-size: 11px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase;
-    font-family: 'DM Mono', monospace; margin-bottom: 18px; padding-bottom: 12px;
+    font-family: monospace; margin-bottom: 18px; padding-bottom: 12px;
     border-bottom: 1px solid var(--border);
   }
 
@@ -75,13 +74,13 @@
 
   .input-prefix {
     position: absolute; left: 12px;
-    font-family: 'DM Mono', monospace; font-size: 13px; color: var(--gold-dim); pointer-events: none;
+    font-family: monospace; font-size: 13px; color: var(--gold-dim); pointer-events: none;
   }
 
   input[type="number"], select {
     width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
     padding: 12px 12px 12px 32px; color: var(--text);
-    font-family: 'DM Mono', monospace; font-size: 15px; outline: none;
+    font-family: monospace; font-size: 15px; outline: none;
     transition: border-color 0.2s; -moz-appearance: textfield; appearance: textfield; -webkit-appearance: none;
   }
   input[type="number"]::-webkit-inner-spin-button,
@@ -101,12 +100,12 @@
     background: var(--gold); border-radius: 50%; cursor: pointer;
   }
 
-  .range-val { font-family: 'DM Mono', monospace; font-size: 15px; color: var(--gold); min-width: 52px; text-align: right; }
+  .range-val { font-family: monospace; font-size: 15px; color: var(--gold); min-width: 52px; text-align: right; }
 
   .btn {
     width: 100%; background: linear-gradient(135deg, var(--gold-dim), var(--gold));
     color: #0d0f14; border: none; border-radius: 8px; padding: 16px;
-    font-family: 'Noto Serif KR', sans-serif; font-size: 16px; font-weight: 700;
+    font-size: 16px; font-weight: 700;
     cursor: pointer; letter-spacing: 1px; margin-top: 6px; -webkit-tap-highlight-color: transparent;
   }
   .btn:active { opacity: 0.85; }
@@ -121,8 +120,8 @@
   .result-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 12px; text-align: center; }
   .result-item.highlight { background: linear-gradient(135deg, #1a1e10, #1e2416); border-color: var(--green-dim); }
 
-  .result-label { font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; font-family: 'DM Mono', monospace; margin-bottom: 6px; }
-  .result-val { font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 500; color: var(--text); }
+  .result-label { font-size: 10px; color: var(--text-muted); letter-spacing: 0.5px; text-transform: uppercase; font-family: monospace; margin-bottom: 6px; }
+  .result-val { font-family: monospace; font-size: 15px; font-weight: 500; color: var(--text); }
   .result-val.big { color: var(--green); font-size: 18px; font-weight: 700; }
 
   .chart-wrap { position: relative; height: 220px; margin-bottom: 8px; }
@@ -133,7 +132,7 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  table { width: 100%; border-collapse: collapse; font-family: 'DM Mono', monospace; font-size: 12px; }
+  table { width: 100%; border-collapse: collapse; font-family: monospace; font-size: 12px; }
   thead { position: sticky; top: 0; background: var(--surface2); z-index: 2; }
   th { padding: 10px; text-align: right; color: var(--gold-dim); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
   th:first-child { text-align: left; }
@@ -148,13 +147,13 @@
   .toggle-table {
     background: none; border: 1px solid var(--border); color: var(--text-muted);
     padding: 9px 16px; border-radius: 6px; cursor: pointer; font-size: 12px;
-    font-family: 'DM Mono', monospace; margin-top: 12px; -webkit-tap-highlight-color: transparent;
+    font-family: monospace; margin-top: 12px; -webkit-tap-highlight-color: transparent;
   }
 
   .info-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(42,48,69,0.5); font-size: 13px; }
   .info-row:last-child { border-bottom: none; }
   .info-key { color: var(--text-muted); }
-  .info-val { font-family: 'DM Mono', monospace; color: var(--text); }
+  .info-val { font-family: monospace; color: var(--text); }
   .info-val.accent { color: var(--gold); }
 
   .spacer { height: 14px; }
@@ -285,7 +284,7 @@
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="chart.umd.min.js"></script>
 <script>
 // ── i18n ───────────────────────────────────────────────────────────────────
 const i18n = {
@@ -376,7 +375,7 @@ const i18n = {
     cardTableTitle: '📋 年別詳細',
     btnExpand: '▼ 詳細を表示', btnCollapse: '▲ 閉じる',
     thYear: '年度', thPrincipal: '累計元本', thGain: '利益', thNet: '税引後資産', thRate: '収益率',
-    infoMultiple: '資産増加倍率', infoCAGR: '実質CAGR（税引後）',
+    infoMultiple: '資産増加倍率', infoCAGR: '実질CAGR（税引後）',
     infoTax: '税金・手数料（推計）', infoMonthly: '積立総額',
     chartNet: '税引後資産', chartPrincipal: '投資元本',
     yearUnit: '年', nthUnit: '年目', tagGoal: '目標',
@@ -531,7 +530,7 @@ function calculate() {
       responsive: true, maintainAspectRatio: false,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { labels: { color: '#8a8a9a', font: { family: 'DM Mono', size: 10 }, boxWidth: 10 } },
+        legend: { labels: { color: '#8a8a8a', font: { family: 'DM Mono', size: 10 }, boxWidth: 10 } },
         tooltip: {
           backgroundColor: '#161923', borderColor: '#2a3045', borderWidth: 1,
           titleColor: '#c8a96e', bodyColor: '#e8e4dc',

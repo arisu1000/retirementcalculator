@@ -38,6 +38,16 @@ android {
     }
 }
 
+tasks.register("downloadChartJs") {
+    doLast {
+        def f = file("src/main/assets/chart.umd.min.js")
+        f.parentFile.mkdirs()
+        new URL("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js").withInputStream { i ->
+            f.withOutputStream { it << i }
+        }
+    }
+}
+
 dependencies {
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
