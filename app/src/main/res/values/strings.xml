@@ -3,4 +3,7 @@
     <string name="app_name">은퇴소득 계산기</string>
     <string name="nav_compound">복리저축 계산기</string>
     <string name="nav_withdrawal">인출 계산기</string>
+    <string name="pension_national">국민연금</string>
+    <string name="pension_personal">개인연금</string>
+    <string name="pension_housing">주택연금</string>
 </resources>

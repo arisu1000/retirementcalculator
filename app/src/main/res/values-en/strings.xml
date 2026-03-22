@@ -3,4 +3,7 @@
     <string name="app_name">Retirement Calculator</string>
     <string name="nav_compound">Compound Calc</string>
     <string name="nav_withdrawal">Withdrawal Calc</string>
+    <string name="pension_national">National Pension</string>
+    <string name="pension_personal">Personal Pension</string>
+    <string name="pension_housing">Housing Pension</string>
 </resources>

@@ -48,16 +48,28 @@ h1 em { font-style: italic; color: var(--warm); }
 label { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
 .input-wrap { position: relative; display: flex; align-items: center; }
 .pfx { position: absolute; left: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); pointer-events: none; }
-input[type="number"], select {
+input[type="number"], input[type="text"], select {
   width: 100%; background: var(--paper); border: 1px solid var(--border); border-radius: 4px;
   padding: 12px 12px 12px 28px; color: var(--text);
   font-family: 'JetBrains Mono', monospace; font-size: 15px; outline: none;
   transition: border-color 0.2s; -moz-appearance: textfield; appearance: textfield; -webkit-appearance: none;
 }
+input[type="text"] { padding-left: 12px; }
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
-input[type="number"]:focus, select:focus { border-color: var(--warm-light); background: var(--warm-pale); }
+input[type="number"]:focus, input[type="text"]:focus, select:focus { border-color: var(--warm-light); background: var(--warm-pale); }
 select { padding-left: 12px; cursor: pointer; }
+
+.pension-item {
+  border: 1px dashed var(--border); border-radius: 4px; padding: 14px; margin-bottom: 14px; background: #faf8f5; position: relative;
+}
+.remove-pension {
+  position: absolute; top: -8px; right: -8px; width: 22px; height: 22px;
+  background: var(--rust); color: white; border: none; border-radius: 50%;
+  font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
 .range-block { display: flex; flex-direction: column; gap: 8px; }
 .range-header { display: flex; justify-content: space-between; align-items: baseline; }
 .range-label { font-size: 11px; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
@@ -87,6 +99,7 @@ input[type="range"]::-webkit-slider-thumb {
   font-family: 'Nanum Myeongjo', serif; font-size: 16px; font-weight: 700;
   cursor: pointer; letter-spacing: 1px; margin-top: 8px; -webkit-tap-highlight-color: transparent;
 }
+.btn.outline { background: transparent; border: 1px solid var(--ink); color: var(--ink); margin-top: 0; padding: 10px; font-size: 12px; }
 .btn:active { opacity: 0.85; }
 .results { display: none; }
 .results.visible { display: block; animation: reveal 0.4s ease; }
@@ -171,12 +184,12 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
 
   <div id="mode-fixed">
     <div class="field" style="margin-bottom:16px;">
-      <label data-i18n="labelMonthly">월 인출액</label>
+      <label data-i18n="labelMonthly">월 희망 생활비</label>
       <div class="input-wrap"><span class="pfx" data-currency>₩</span><input type="number" id="monthly" value="3000000" inputmode="numeric"></div>
     </div>
     <div class="range-block" style="margin-bottom:16px;">
       <div class="range-header">
-        <span class="range-label" data-i18n="labelInflation">물가상승률 반영</span>
+        <span class="range-label" data-i18n="labelInflation">생활비 물가상승률 반영</span>
         <span class="range-val" id="inflLabel">2.0%</span>
       </div>
       <input type="range" id="inflation" min="0" max="10" step="0.1" value="2"
@@ -219,7 +232,17 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
     <input type="range" id="lifespan" min="10" max="50" step="1" value="30"
       oninput="updateLifeLabel(this.value)">
   </div>
+</div>
 
+<div class="section">
+  <div class="section-title" data-i18n="sectionPension">연금 설정 (다중 입력 가능)</div>
+  <div id="pension-list">
+    <!-- Pension items added here -->
+  </div>
+  <button class="btn outline" onclick="addPension()" data-i18n="btnAddPension">+ 연금 추가</button>
+</div>
+
+<div class="container">
   <button class="btn" onclick="calculate()" data-i18n="btnCalculate">✦ 계산하기</button>
 </div>
 
@@ -246,7 +269,9 @@ tr.last-year td { color:var(--green) !important; background:#f4fbf5; font-weight
           <thead>
             <tr>
               <th data-i18n="thYear">연도</th>
-              <th data-i18n="thWithdraw">연간 인출액</th>
+              <th data-i18n="thNeeds">총 희망 생활비</th>
+              <th data-i18n="thPension">연금 합계</th>
+              <th data-i18n="thWithdraw">자산 인출액</th>
               <th data-i18n="thGain">운용수익</th>
               <th data-i18n="thBalance">연말 잔액</th>
               <th data-i18n="thDepletion">소진율</th>
@@ -273,11 +298,15 @@ const i18n = {
     tabRate: '정률 인출', tabRateSub: '잔액의 N% 매년',
     tabSwr: 'SWR 분석', tabSwrSub: '안전 인출률 찾기',
     labelNest: '은퇴 시작 자산', labelStartYear: '은퇴 시작 연도',
-    labelMonthly: '월 인출액', labelInflation: '물가상승률 (연)',
+    labelMonthly: '월 희망 생활비', labelInflation: '생활비 물가상승률 (연)',
     labelWRate: '연간 인출률', labelSwrYears: '자산 유지 목표 기간',
     labelRetRate: '포트폴리오 연평균 수익률', labelLifespan: '예측 기간 (기대 수명 기준)',
+    sectionPension: '연금 설정 (다중 입력 가능)',
+    labelPensionName: '연금 이름 (예: 국민연금)', labelPension: '월 수령액', labelPensionYear: '개시 연도',
+    labelPensionInfl: '물가상승률 반영', optYes: '반영함', optNo: '고정액',
+    btnAddPension: '+ 연금 추가',
     unitYear: '년', btnCalculate: '✦ 계산하기',
-    kpiDuration: '자산 지속', kpiMonthly: '월 인출액', kpiTotal: '총 인출 합계', kpiBalance: '잔액',
+    kpiDuration: '자산 지속', kpiMonthly: '희망 생활비', kpiTotal: '총 자산 인출액', kpiBalance: '잔액',
     kpiDepleted: '소진됨', kpiRemains: '잔액 남음', kpiWithin: '기간 내 유지',
     kpiDepletedAt: (y, cy) => `${cy}년 소진`,
     kpiPlus: (n) => `${n}년+`,
@@ -285,14 +314,14 @@ const i18n = {
     kpiOfPrincipal: (p) => `원금의 ${p}%`,
     bannerOk: (n, bal) => `${n}년 기간 동안 자산이 유지됩니다. 최종 잔액 <strong>${bal}</strong>이 남습니다.`,
     bannerNg: (y, cy, lack) => `은퇴 후 <strong>${y}년차</strong> (${cy}년)에 자산이 소진됩니다. 목표보다 <strong>${lack}년</strong> 부족합니다.`,
-    swrDesc: (targetYears, monthly) => `월 ${monthly} 인출 시 ${targetYears}년간 자산 소진 없음`,
+    swrDesc: (targetYears, monthly) => `월 ${monthly} 생활비 지출 시 ${targetYears}년간 자산 소진 없음`,
     sectionChart: '자산 잔액 추이', sectionScenario: '시나리오 비교', sectionTable: '연도별 인출 내역',
     btnTableExpand: '▼ 상세 내역 보기', btnTableCollapse: '▲ 상세 내역 접기',
-    thYear: '연도', thWithdraw: '연간 인출액', thGain: '운용수익', thBalance: '연말 잔액', thDepletion: '소진율',
+    thYear: '연도', thNeeds: '총 희망 생활비', thWithdraw: '자산 인출액', thPension: '연금 합계', thGain: '운용수익', thBalance: '연말 잔액', thDepletion: '소진율',
     tagDepleted: '소진', tagEnd: '종료',
-    scWithdrawRate: '인출률', scMonthly: '월 인출액', scDuration: '자산 지속', scBalance: '최종 잔액',
+    scWithdrawRate: '인출률', scMonthly: '월 생활비', scDuration: '자산 지속', scBalance: '최종 잔액',
     scDepleted: (n) => `${n}년차 소진`, scSustained: (n) => `${n}년 유지`,
-    chartBalance: '자산 잔액', chartWithdraw: '연간 인출액',
+    chartBalance: '자산 잔액', chartWithdraw: '자산 인출액',
     yearRow: (cy, n) => `${cy}년 (${n}년차)`,
     scLabels: ['보수적 (SWR-1%)', '안전 인출률', '적극적 (SWR+1%)'],
     currencySymbol: '₩',
@@ -315,15 +344,19 @@ const i18n = {
     heading: 'Retirement <em>Withdrawal</em> Calculator',
     subtitle: 'How long will your nest egg last? Analyze safe withdrawal rates and depletion timing.',
     sectionInput: 'Calculation Mode',
-    tabFixed: 'Fixed Amount', tabFixedSub: 'Set monthly draw',
+    tabFixed: 'Fixed Amount', tabFixedSub: 'Set monthly expense',
     tabRate: 'Fixed Rate', tabRateSub: 'N% of balance yearly',
     tabSwr: 'SWR Analysis', tabSwrSub: 'Find safe rate',
     labelNest: 'Retirement Nest Egg', labelStartYear: 'Retirement Start Year',
-    labelMonthly: 'Monthly Withdrawal', labelInflation: 'Inflation Rate (Annual)',
+    labelMonthly: 'Target Monthly Expense', labelInflation: 'Expense Inflation Rate (Annual)',
     labelWRate: 'Annual Withdrawal Rate', labelSwrYears: 'Target Sustainability Period',
     labelRetRate: 'Portfolio Annual Return', labelLifespan: 'Forecast Period (Life Expectancy)',
+    sectionPension: 'Pension Settings (Multiple)',
+    labelPensionName: 'Pension Name', labelPension: 'Monthly Amt', labelPensionYear: 'Start Year',
+    labelPensionInfl: 'Inflation Adjust', optYes: 'Yes', optNo: 'Fixed',
+    btnAddPension: '+ Add Pension',
     unitYear: 'yr', btnCalculate: '✦ Calculate',
-    kpiDuration: 'Asset Duration', kpiMonthly: 'Monthly Draw', kpiTotal: 'Total Withdrawn', kpiBalance: 'Balance',
+    kpiDuration: 'Asset Duration', kpiMonthly: 'Target Expense', kpiTotal: 'Total Asset Draw', kpiBalance: 'Balance',
     kpiDepleted: 'Depleted', kpiRemains: 'Remaining', kpiWithin: 'Sustained',
     kpiDepletedAt: (y, cy) => `Depleted ${cy}`,
     kpiPlus: (n) => `${n}yr+`,
@@ -331,14 +364,14 @@ const i18n = {
     kpiOfPrincipal: (p) => `${p}% of principal`,
     bannerOk: (n, bal) => `Assets sustained for ${n} years. Final balance: <strong>${bal}</strong>.`,
     bannerNg: (y, cy, lack) => `Assets depleted in year <strong>${y}</strong> (${cy}). <strong>${lack} years</strong> short of target.`,
-    swrDesc: (targetYears, monthly) => `${monthly}/mo withdrawal sustains assets for ${targetYears} years`,
+    swrDesc: (targetYears, monthly) => `${monthly}/mo expense sustains assets for ${targetYears} years`,
     sectionChart: 'Asset Balance Trend', sectionScenario: 'Scenario Comparison', sectionTable: 'Annual Withdrawal Detail',
     btnTableExpand: '▼ Show Detail', btnTableCollapse: '▲ Collapse',
-    thYear: 'Year', thWithdraw: 'Annual Draw', thGain: 'Returns', thBalance: 'Year-end Balance', thDepletion: 'Depletion',
+    thYear: 'Year', thNeeds: 'Target Expense', thWithdraw: 'Asset Draw', thPension: 'Pension Total', thGain: 'Returns', thBalance: 'Year-end Balance', thDepletion: 'Depletion',
     tagDepleted: 'Depleted', tagEnd: 'End',
     scWithdrawRate: 'Withdrawal Rate', scMonthly: 'Monthly', scDuration: 'Duration', scBalance: 'Final Balance',
     scDepleted: (n) => `Depleted yr${n}`, scSustained: (n) => `${n}yr sustained`,
-    chartBalance: 'Asset Balance', chartWithdraw: 'Annual Withdrawal',
+    chartBalance: 'Asset Balance', chartWithdraw: 'Asset Drawdown',
     yearRow: (cy, n) => `${cy} (yr ${n})`,
     scLabels: ['Conservative (SWR-1%)', 'Safe Withdrawal Rate', 'Aggressive (SWR+1%)'],
     currencySymbol: '$',
@@ -362,14 +395,18 @@ const i18n = {
     subtitle: '老後資産はいつまで持つか — 安全引き出し率と資産枯渇時点を分析します',
     sectionInput: '計算方式の選択',
     tabFixed: '定額引出', tabFixedSub: '毎月固定金額',
-    tabRate: '定率引出', tabRateSub: '残高のN%を毎年',
+    tabRate: '定率引出', tabRateSub: '残高의N%を毎年',
     tabSwr: 'SWR分析', tabSwrSub: '安全引出率を算出',
     labelNest: '退職時の資産', labelStartYear: '退職開始年',
-    labelMonthly: '月次引き出し額', labelInflation: 'インフレ率（年率）',
+    labelMonthly: '月間希望生活費', labelInflation: '生活費インフレ率（年率）',
     labelWRate: '年間引き出し率', labelSwrYears: '資産維持目標期間',
     labelRetRate: 'ポートフォリオ年平均収益率', labelLifespan: '予測期間（平均余命ベース）',
+    sectionPension: '年금設定 (複数入力可)',
+    labelPensionName: '年金名', labelPension: '月次額', labelPensionYear: '開始年度',
+    labelPensionInfl: 'インフレ連動', optYes: 'あり', optNo: '固定',
+    btnAddPension: '+ 年金追加',
     unitYear: '年', btnCalculate: '✦ 計算する',
-    kpiDuration: '資産継続', kpiMonthly: '月次引出', kpiTotal: '総引出合計', kpiBalance: '残高',
+    kpiDuration: '資産継続', kpiMonthly: '希望生活費', kpiTotal: '総資産引出額', kpiBalance: '残高',
     kpiDepleted: '枯渇', kpiRemains: '残高あり', kpiWithin: '期間内維持',
     kpiDepletedAt: (y, cy) => `${cy}年 枯渇`,
     kpiPlus: (n) => `${n}年以上`,
@@ -377,14 +414,14 @@ const i18n = {
     kpiOfPrincipal: (p) => `元本比 ${p}%`,
     bannerOk: (n, bal) => `${n}年間資産が維持されます。最終残高 <strong>${bal}</strong>。`,
     bannerNg: (y, cy, lack) => `退職後 <strong>${y}年目</strong>（${cy}年）に資産枯渇。目標より <strong>${lack}年</strong> 不足。`,
-    swrDesc: (targetYears, monthly) => `月${monthly}引出で${targetYears}年間資産維持`,
+    swrDesc: (targetYears, monthly) => `月${monthly}生活費で${targetYears}年間資産維持`,
     sectionChart: '資産残高推移', sectionScenario: 'シナリオ比較', sectionTable: '年別引出明細',
     btnTableExpand: '▼ 詳細を表示', btnTableCollapse: '▲ 閉じる',
-    thYear: '年度', thWithdraw: '年間引出額', thGain: '運用益', thBalance: '年末残高', thDepletion: '枯渇率',
+    thYear: '年度', thNeeds: '総希望生活費', thWithdraw: '資産引출額', thPension: '年金合計', thGain: '運用益', thBalance: '年末残高', thDepletion: '枯渇率',
     tagDepleted: '枯渇', tagEnd: '終了',
-    scWithdrawRate: '引出率', scMonthly: '月次引出', scDuration: '資産継続', scBalance: '最終残高',
+    scWithdrawRate: '引出率', scMonthly: '月次生活費', scDuration: '資産継続', scBalance: '最終残高',
     scDepleted: (n) => `${n}年目枯渇`, scSustained: (n) => `${n}年維持`,
-    chartBalance: '資産残高', chartWithdraw: '年間引出額',
+    chartBalance: '資産残高', chartWithdraw: '資産引き出し',
     yearRow: (cy, n) => `${cy}年（${n}年目）`,
     scLabels: ['保守的（SWR-1%）', '安全引出率', '積極的（SWR+1%）'],
     currencySymbol: '¥',
@@ -408,6 +445,62 @@ const i18n = {
 let currentLang = 'ko';
 let mode = 'fixed';
 let chartInst = null;
+let pensionCounter = 0;
+
+// ── 연금 입력 UI 관리 ───────────────────────────────────────────────────────
+function addPension(name = '', amount = 0, year = 2045, inflation = 'true') {
+  const id = pensionCounter++;
+  const div = document.createElement('div');
+  div.className = 'pension-item';
+  div.id = `pension-item-${id}`;
+  div.innerHTML = `
+    <button class="remove-pension" onclick="removePension(${id})">×</button>
+    <div class="field" style="margin-bottom:10px;">
+      <label data-i18n="labelPensionName">연금 이름</label>
+      <input type="text" class="p_name" value="${name}" placeholder="국민연금, 개인연금 등">
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label data-i18n="labelPension">월 수령액</label>
+        <div class="input-wrap"><span class="pfx" data-currency>₩</span><input type="number" class="p_amt" value="${amount}" inputmode="numeric"></div>
+      </div>
+      <div class="field">
+        <label data-i18n="labelPensionYear">개시 연도</label>
+        <div class="input-wrap"><span class="pfx" style="font-size:10px">년</span><input type="number" class="p_year" value="${year}" style="padding-left:24px;" inputmode="numeric"></div>
+      </div>
+    </div>
+    <div class="range-block" style="margin-top:10px;">
+      <div class="range-header">
+        <span class="range-label" data-i18n="labelPensionInfl">물가상승률 반영</span>
+        <select class="p_infl" style="width: auto; padding: 4px 8px; font-size: 12px; height: 32px;">
+          <option value="true" ${inflation==='true'?'selected':''} data-i18n="optYes">반영함</option>
+          <option value="false" ${inflation==='false'?'selected':''} data-i18n="optNo">고정액</option>
+        </select>
+      </div>
+    </div>
+  `;
+  document.getElementById('pension-list').appendChild(div);
+  applyTranslations();
+}
+
+function removePension(id) {
+  const el = document.getElementById(`pension-item-${id}`);
+  if (el) el.remove();
+}
+
+function getPensionData() {
+  const items = document.querySelectorAll('.pension-item');
+  const data = [];
+  items.forEach(item => {
+    data.push({
+      name: item.querySelector('.p_name').value,
+      amount: parseFloat(item.querySelector('.p_amt').value) || 0,
+      startYear: parseInt(item.querySelector('.p_year').value) || 2045,
+      inflation: item.querySelector('.p_infl').value === 'true'
+    });
+  });
+  return data;
+}
 
 // ── 언어 적용 ───────────────────────────────────────────────────────────────
 function setLanguage(lang) {
@@ -430,47 +523,72 @@ function applyTranslations() {
   });
   updateLifeLabel(document.getElementById('lifespan').value);
 
-  // 통화 기호 업데이트
   document.querySelectorAll('[data-currency]').forEach(el => {
     el.textContent = t.currencySymbol;
   });
 
   const tw = document.getElementById('tableWrap');
-  document.getElementById('tableToggleBtn').textContent =
-    tw.style.display === 'none' ? t.btnTableExpand : t.btnTableCollapse;
+  if (tw) {
+    document.getElementById('tableToggleBtn').textContent =
+      tw.style.display === 'none' ? t.btnTableExpand : t.btnTableCollapse;
+  }
 }
 
 function updateLifeLabel(val) {
   const t = i18n[currentLang];
-  document.getElementById('lifeLabel').textContent = val + t.unitYear;
+  const el = document.getElementById('lifeLabel');
+  if (el) el.textContent = val + t.unitYear;
 }
 
-// ── 숫자 포맷 (언어별 함수에 위임) ─────────────────────────────────────────
 function fmtFull(n) { return i18n[currentLang].fmt(n); }
-
 function fmtShort(n) { return i18n[currentLang].fmtShort(n); }
 
-// ── 모드 전환 ───────────────────────────────────────────────────────────────
 function setMode(m) {
   mode = m;
   ['fixed', 'rate', 'swr'].forEach(x => {
-    document.getElementById('mode-' + x).style.display = x === m ? 'block' : 'none';
-    document.getElementById('tab-' + x).classList.toggle('active', x === m);
+    const el = document.getElementById('mode-' + x);
+    if (el) el.style.display = x === m ? 'block' : 'none';
+    const tab = document.getElementById('tab-' + x);
+    if (tab) tab.classList.toggle('active', x === m);
   });
 }
 
 // ── 시뮬레이션 ──────────────────────────────────────────────────────────────
-function simulate(nest, annualWithdrawal, returnRate, years, inflationRate) {
+function simulate(nest, annualWithdrawal, returnRate, years, inflationRate, pensions, startYear) {
   const rows = [];
-  let balance = nest, withdrawal = annualWithdrawal, depletedYear = null;
+  let balance = nest, targetExpense = annualWithdrawal, depletedYear = null;
+
+  // 연금 데이터 복제 (시뮬레이션 중 금액 업데이트용)
+  const currentPensions = pensions.map(p => ({
+    ...p,
+    currentAnnual: p.amount * 12
+  }));
+
   for (let y = 1; y <= years; y++) {
-    if (depletedYear) { rows.push({ y, withdrawal: 0, gain: 0, balance: 0, depleted: true }); continue; }
+    const cy = startYear + y - 1;
+    if (depletedYear) { rows.push({ y, targetExpense: 0, actualWithdraw: 0, pension: 0, gain: 0, balance: 0, depleted: true }); continue; }
+
     const gain = balance * (returnRate / 100);
-    const w = Math.min(withdrawal, balance + gain);
+
+    // 그해의 총 연금 합계 계산
+    let totalP = 0;
+    currentPensions.forEach(p => {
+      if (cy >= p.startYear) totalP += p.currentAnnual;
+    });
+
+    const netWithdrawalNeeded = Math.max(0, targetExpense - totalP);
+    const w = Math.min(netWithdrawalNeeded, balance + gain);
+
     balance = balance + gain - w;
-    if (balance <= 0) { balance = 0; depletedYear = y; }
-    rows.push({ y, withdrawal: w, gain, balance, depleted: balance <= 0 });
-    withdrawal *= (1 + (inflationRate || 0) / 100);
+    if (balance <= 0 && netWithdrawalNeeded > w) { balance = 0; depletedYear = y; }
+
+    rows.push({ y, targetExpense, actualWithdraw: w, pension: totalP, gain, balance, depleted: balance <= 0 && netWithdrawalNeeded > w });
+
+    // 내년도 타겟 업데이트
+    targetExpense *= (1 + (inflationRate || 0) / 100);
+    currentPensions.forEach(p => {
+      if (p.inflation) p.currentAnnual *= (1 + (inflationRate || 0) / 100);
+    });
   }
   return { rows, depletedYear };
 }
@@ -481,8 +599,9 @@ function calculate() {
   const startYear = parseInt(document.getElementById('startYear').value) || 2034;
   const retRate = parseFloat(document.getElementById('retRate').value);
   const lifespan = parseInt(document.getElementById('lifespan').value);
+  const pensions = getPensionData();
 
-  if (mode === 'swr') { runSWR(nest, startYear, retRate, lifespan); return; }
+  if (mode === 'swr') { runSWR(nest, startYear, retRate, lifespan, pensions); return; }
 
   let annualWithdrawal, inflationRate = 0;
   if (mode === 'fixed') {
@@ -490,26 +609,27 @@ function calculate() {
     inflationRate = parseFloat(document.getElementById('inflation').value) || 0;
   } else {
     annualWithdrawal = nest * (parseFloat(document.getElementById('wRate').value) / 100);
+    inflationRate = 2.0;
   }
 
-  const { rows, depletedYear } = simulate(nest, annualWithdrawal, retRate, lifespan, inflationRate);
+  const { rows, depletedYear } = simulate(nest, annualWithdrawal, retRate, lifespan, inflationRate, pensions, startYear);
   renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, lifespan, retRate);
 }
 
-function runSWR(nest, startYear, retRate, lifespan) {
+function runSWR(nest, startYear, retRate, lifespan, pensions) {
   const targetYears = parseInt(document.getElementById('swrYears').value) || 30;
   let lo = 0, hi = 20, safeSWR = 0;
   for (let i = 0; i < 80; i++) {
     const mid = (lo + hi) / 2;
-    const { depletedYear } = simulate(nest, nest * mid / 100, retRate, targetYears, 0);
+    const { depletedYear } = simulate(nest, nest * mid / 100, retRate, targetYears, 2.0, pensions, startYear);
     if (!depletedYear) { lo = mid; safeSWR = mid; } else hi = mid;
   }
   const annualW = nest * safeSWR / 100;
-  const { rows, depletedYear } = simulate(nest, annualW, retRate, lifespan, 0);
+  const { rows, depletedYear } = simulate(nest, annualW, retRate, lifespan, 2.0, pensions, startYear);
   const t = i18n[currentLang];
   const scenarios = t.scLabels.map((label, i) => {
     const rate = i === 0 ? Math.max(safeSWR - 1, 0.5) : i === 1 ? safeSWR : safeSWR + 1;
-    const r = simulate(nest, nest * rate / 100, retRate, lifespan, 0);
+    const r = simulate(nest, nest * rate / 100, retRate, lifespan, 2.0, pensions, startYear);
     return { label, rate, monthly: nest * rate / 100 / 12, depletedYear: r.depletedYear, lastBalance: r.rows[r.rows.length - 1].balance };
   });
   renderResults(rows, depletedYear, nest, annualW, startYear, lifespan, retRate, safeSWR, annualW / 12, scenarios);
@@ -519,11 +639,10 @@ function runSWR(nest, startYear, retRate, lifespan) {
 function renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, lifespan, retRate, safeSWR, safeMonthly, scenarioData) {
   const t = i18n[currentLang];
   const lastRow = rows[rows.length - 1];
-  const totalWithdrawn = rows.reduce((s, r) => s + r.withdrawal, 0);
+  const totalWithdrawnFromAssets = rows.reduce((s, r) => s + r.actualWithdraw, 0);
   const finalBalance = lastRow.balance;
   const endYear = startYear + lifespan - 1;
 
-  // KPI
   document.getElementById('kpiRow').innerHTML = `
     <div class="kpi ${depletedYear ? 'danger' : 'success'}">
       <div class="kpi-label">${t.kpiDuration}</div>
@@ -537,8 +656,8 @@ function renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, li
     </div>
     <div class="kpi">
       <div class="kpi-label">${t.kpiTotal}</div>
-      <div class="kpi-val">${fmtShort(totalWithdrawn)}</div>
-      <div class="kpi-sub">${t.kpiOfPrincipal((totalWithdrawn / nest * 100).toFixed(0))}</div>
+      <div class="kpi-val">${fmtShort(totalWithdrawnFromAssets)}</div>
+      <div class="kpi-sub">${t.kpiOfPrincipal((totalWithdrawnFromAssets / nest * 100).toFixed(0))}</div>
     </div>
     <div class="kpi ${finalBalance > 0 ? 'success' : 'danger'}">
       <div class="kpi-label">${endYear} ${t.unitYear} ${t.kpiBalance}</div>
@@ -547,7 +666,6 @@ function renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, li
     </div>
   `;
 
-  // SWR 배너 + 상태 배너
   let swrHtml = '';
   if (safeSWR) {
     swrHtml = `<div class="swr-banner">
@@ -560,7 +678,6 @@ function renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, li
     ? `<div class="banner ng"><span style="font-size:18px;">⚠️</span><span>${t.bannerNg(depletedYear, startYear + depletedYear - 1, lifespan - depletedYear)}</span></div>`
     : `<div class="banner ok"><span style="font-size:18px;">✓</span><span>${t.bannerOk(lifespan, fmtFull(finalBalance))}</span></div>`);
 
-  // 차트
   if (chartInst) chartInst.destroy();
   const ctx = document.getElementById('chart').getContext('2d');
   chartInst = new Chart(ctx, {
@@ -574,7 +691,7 @@ function renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, li
           pointRadius: rows.length > 25 ? 0 : 3, borderWidth: 2, yAxisID: 'y'
         },
         {
-          type: 'bar', label: t.chartWithdraw, data: rows.map(r => r.withdrawal),
+          type: 'bar', label: t.chartWithdraw, data: rows.map(r => r.actualWithdraw),
           backgroundColor: 'rgba(139,105,20,0.2)', borderColor: 'rgba(139,105,20,0.4)', borderWidth: 1, yAxisID: 'y'
         }
       ]
@@ -596,7 +713,6 @@ function renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, li
     }
   });
 
-  // 시나리오
   if (scenarioData) {
     document.getElementById('scenarioSection').style.display = 'block';
     document.getElementById('scenarioGrid').innerHTML = scenarioData.map(s => `
@@ -611,14 +727,15 @@ function renderResults(rows, depletedYear, nest, annualWithdrawal, startYear, li
     document.getElementById('scenarioSection').style.display = 'none';
   }
 
-  // 테이블
   document.getElementById('tbody').innerHTML = rows.map(r => {
     const cy = startYear + r.y - 1;
     const pct = r.balance > 0 ? ((nest - r.balance) / nest * 100).toFixed(0) + '%' : '100%';
     const isLast = r.y === lifespan;
     return `<tr class="${r.depleted ? 'depleted' : isLast ? 'last-year' : ''}">
       <td>${t.yearRow(cy, r.y)}${r.depleted ? `<span class="tag">${t.tagDepleted}</span>` : isLast ? `<span class="tag ok">${t.tagEnd}</span>` : ''}</td>
-      <td>${fmtFull(r.withdrawal)}</td>
+      <td>${fmtFull(r.targetExpense)}</td>
+      <td>${r.pension > 0 ? `<span style="color:var(--green)">+${fmtFull(r.pension)}</span>` : '-'}</td>
+      <td>${fmtFull(r.actualWithdraw)}</td>
       <td>+${fmtFull(r.gain)}</td>
       <td>${r.balance > 0 ? fmtFull(r.balance) : '<span style="color:var(--rust)">0</span>'}</td>
       <td>${pct}</td>
@@ -637,6 +754,8 @@ function toggleTable() {
   document.getElementById('tableToggleBtn').textContent = open ? t.btnTableCollapse : t.btnTableExpand;
 }
 
+// 초기 연금 하나 추가
+addPension('국민연금', 1500000, 2045, 'true');
 calculate();
 </script>
 </body>

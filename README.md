@@ -73,6 +73,7 @@ retirementcalculator/
 - Android Studio Hedgehog (2023.1.1) 이상
 - Android SDK Platform 34
 - JDK 17
+- Gradle 8.9 (gradle-wrapper.properties)
 
 ### Android Studio에서 열기
 
@@ -84,14 +85,18 @@ retirementcalculator/
 ### 커맨드라인 빌드
 
 ```bash
-# Debug APK 빌드
+# Debug APK 빌드 (테스트용)
 ./gradlew assembleDebug
+
+# Release APK 빌드 (배포용, 서명 필요)
+./gradlew assembleRelease
 
 # 기기에 바로 설치
 ./gradlew installDebug
 
 # APK 위치
-# app/build/outputs/apk/debug/app-debug.apk
+# Debug: app/build/outputs/apk/debug/app-debug.apk
+# Release: app/build/outputs/apk/release/app-release-unsigned.apk
 ```
 
 ### ADB 직접 설치
