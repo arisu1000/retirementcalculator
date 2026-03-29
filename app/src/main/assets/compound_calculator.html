@@ -157,6 +157,16 @@
   .info-val.accent { color: var(--gold); }
 
   .spacer { height: 14px; }
+
+  .recent-section { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .recent-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .recent-title { font-size: 10px; color: var(--gold-dim); letter-spacing: 1.5px; text-transform: uppercase; font-family: monospace; }
+  .recent-clear { font-size: 10px; color: var(--text-muted); background: none; border: 1px solid var(--border); border-radius: 4px; padding: 4px 10px; cursor: pointer; font-family: monospace; -webkit-tap-highlight-color: transparent; }
+  .recent-clear:active { opacity: 0.7; }
+  .recent-list { display: flex; flex-direction: column; gap: 6px; }
+  .recent-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; cursor: pointer; font-family: monospace; font-size: 11px; color: var(--text-muted); -webkit-tap-highlight-color: transparent; text-align: left; width: 100%; line-height: 1.4; }
+  .recent-item:active { border-color: var(--gold-dim); background: rgba(200,169,110,0.06); }
+  .recent-empty { font-size: 11px; color: var(--text-muted); font-family: monospace; text-align: center; padding: 6px 0; opacity: 0.7; }
 </style>
 </head>
 <body>
@@ -229,8 +239,15 @@
       <input type="range" id="tax" min="0" max="30" step="0.1" value="15.4">
     </div>
 
+    <div id="recentSection" class="recent-section">
+      <div class="recent-header">
+        <span class="recent-title" data-i18n="recentTitle">최근 입력값</span>
+        <button class="recent-clear" onclick="clearHistory()" data-i18n="recentClear">기록 삭제</button>
+      </div>
+      <div class="recent-list" id="recentList"></div>
+    </div>
     <div class="spacer"></div>
-    <button class="btn" onclick="calculate()" data-i18n="btnCalculate">✦ 계산하기</button>
+    <button class="btn" onclick="onCalculate()" data-i18n="btnCalculate">✦ 계산하기</button>
   </div>
 
   <div class="results" id="results">
@@ -308,6 +325,10 @@ const i18n = {
     chartNet: '세후 자산', chartPrincipal: '투자 원금',
     yearUnit: '년', nthUnit: '년차', tagGoal: '목표',
     yearRow: (cy, n) => `${cy}년 (${n}년차)`,
+    recentTitle: '최근 입력값',
+    recentClear: '기록 삭제',
+    recentEmpty: '저장된 기록 없음',
+    recentSummary: (e, fmt, t) => `${fmt(e.principal)} + 월 ${fmt(e.monthly)}  ·  ${e.rate.toFixed(1)}%  ·  ${e.years}${t.yearUnit}`,
     currencySymbol: '₩',
     fmt: (n) => {
       const abs = Math.abs(n), s = n < 0 ? '-' : '';
@@ -344,6 +365,10 @@ const i18n = {
     chartNet: 'After-Tax Assets', chartPrincipal: 'Principal',
     yearUnit: ' yr', nthUnit: 'yr', tagGoal: 'Target',
     yearRow: (cy, n) => `${cy} (yr ${n})`,
+    recentTitle: 'Recent Values',
+    recentClear: 'Clear',
+    recentEmpty: 'No saved history',
+    recentSummary: (e, fmt, t) => `${fmt(e.principal)} + ${fmt(e.monthly)}/mo  ·  ${e.rate.toFixed(1)}%  ·  ${e.years}${t.yearUnit}`,
     currencySymbol: '$',
     fmt: (n) => {
       const abs = Math.abs(n), s = n < 0 ? '-' : '';
@@ -380,6 +405,10 @@ const i18n = {
     chartNet: '税引後資産', chartPrincipal: '投資元本',
     yearUnit: '年', nthUnit: '年目', tagGoal: '目標',
     yearRow: (cy, n) => `${cy}年（${n}年目）`,
+    recentTitle: '最近の入力値',
+    recentClear: '履歴削除',
+    recentEmpty: '保存された記録はありません',
+    recentSummary: (e, fmt, t) => `${fmt(e.principal)} + 月${fmt(e.monthly)}  ·  ${e.rate.toFixed(1)}%  ·  ${e.years}${t.yearUnit}`,
     currencySymbol: '¥',
     fmt: (n) => {
       const abs = Math.abs(n), s = n < 0 ? '-' : '';
@@ -438,6 +467,8 @@ function applyTranslations() {
   const wrap = document.getElementById('tableWrap');
   document.getElementById('toggleBtn').textContent =
     wrap.style.display === 'none' ? t.btnExpand : t.btnCollapse;
+
+  renderHistory();
 }
 
 // ── 숫자 포맷 (언어별 함수에 위임) ─────────────────────────────────────────
@@ -454,6 +485,77 @@ document.getElementById('years').oninput = function () {
 document.getElementById('tax').oninput = function () {
   document.getElementById('taxLabel').textContent = parseFloat(this.value).toFixed(1) + '%';
 };
+
+// ── 최근 입력값 히스토리 ─────────────────────────────────────────────────────
+const HISTORY_KEY = 'compound_calc_history';
+const MAX_HISTORY = 3;
+
+function saveHistory() {
+  const entry = {
+    principal: parseFloat(document.getElementById('principal').value) || 0,
+    monthly: parseFloat(document.getElementById('monthly').value) || 0,
+    rate: parseFloat(document.getElementById('rate').value),
+    years: parseInt(document.getElementById('years').value),
+    freq: parseInt(document.getElementById('freq').value),
+    tax: parseFloat(document.getElementById('tax').value),
+  };
+  let history = loadHistoryData();
+  if (history.length > 0 && JSON.stringify(history[0]) === JSON.stringify(entry)) return;
+  history.unshift(entry);
+  if (history.length > MAX_HISTORY) history.length = MAX_HISTORY;
+  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history)); } catch(e) {}
+  renderHistory();
+}
+
+function loadHistoryData() {
+  try { const d = localStorage.getItem(HISTORY_KEY); return d ? JSON.parse(d) : []; }
+  catch(e) { return []; }
+}
+
+function clearHistory() {
+  try { localStorage.removeItem(HISTORY_KEY); } catch(e) {}
+  renderHistory();
+}
+
+function applyHistory(idx) {
+  const history = loadHistoryData();
+  if (idx >= history.length) return;
+  const e = history[idx];
+  document.getElementById('principal').value = e.principal;
+  document.getElementById('monthly').value = e.monthly;
+  document.getElementById('rate').value = e.rate;
+  document.getElementById('years').value = e.years;
+  document.getElementById('freq').value = e.freq;
+  document.getElementById('tax').value = e.tax;
+  const t = i18n[currentLang];
+  document.getElementById('rateLabel').textContent = e.rate.toFixed(1) + '%';
+  document.getElementById('yearsLabel').textContent = e.years + t.yearUnit;
+  document.getElementById('taxLabel').textContent = e.tax.toFixed(1) + '%';
+}
+
+function renderHistory() {
+  const t = i18n[currentLang];
+  const history = loadHistoryData();
+  const listEl = document.getElementById('recentList');
+  if (!listEl) return;
+  listEl.innerHTML = '';
+  if (history.length === 0) {
+    listEl.innerHTML = `<div class="recent-empty">${t.recentEmpty}</div>`;
+    return;
+  }
+  history.forEach((e, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'recent-item';
+    btn.onclick = () => applyHistory(idx);
+    btn.textContent = t.recentSummary(e, (n) => i18n[currentLang].fmt(n), t);
+    listEl.appendChild(btn);
+  });
+}
+
+function onCalculate() {
+  saveHistory();
+  calculate();
+}
 
 // ── 계산 ────────────────────────────────────────────────────────────────────
 let chartInstance = null;
@@ -574,6 +676,7 @@ function toggleTable() {
 }
 
 calculate();
+renderHistory();
 </script>
 </body>
 </html>
